@@ -25,7 +25,7 @@ const DocumentList = () => {
         sx={{
           color: '#007bff',
           fontWeight: 'bold',
-          textAlign: 'center',
+          textAlign: 'left',
         }}
       >
         {currentUser.name}'s Documents
