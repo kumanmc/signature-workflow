@@ -5,18 +5,18 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/material": "^7.1.1",
+    "@mui/material": "^5.17.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.126",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-scripts": "5.0.1",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zustand": "^5.0.5"
@@ -36,19 +36,16 @@
       "!src/**/*.d.ts",
       "!src/index.tsx",
       "!src/reportWebVitals.ts",
-      "!src/setupTests.ts"
+      "!src/setupTests.ts",
+      "!src/**/constants.ts",
+      "!src/types/*",
+      "!src/App.tsx"
     ],
     "coverageReporters": [
       "json",
       "lcov",
       "text",
       "text-summary"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
     ]
   },
   "browserslist": {
@@ -68,6 +65,7 @@
     "eslint": "^9.0.0",
     "eslint-plugin-react": "latest",
     "globals": "^15.0.0",
+    "jest": "^27.5.1",
     "typescript-eslint": "^8.0.0"
   }
 }
