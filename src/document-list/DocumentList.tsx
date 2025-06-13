@@ -19,8 +19,16 @@ const DocumentList = () => {
       sx={{ mt: 4, p: 2, border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}
       aria-label="Document list"
     >
-      <Typography variant="h5" gutterBottom sx={{ color: '#007bff' }}>
-        Documentos de {currentUser.name}
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{
+          color: '#007bff',
+          fontWeight: 'bold',
+          textAlign: 'center',
+        }}
+      >
+        {currentUser.name}'s Documents
       </Typography>
 
       {userDocuments.length === 0 ? (

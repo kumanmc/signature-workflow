@@ -67,7 +67,7 @@ test('Show list with documents', () => {
   const noDocumentsText = screen.queryByText(/No documents available/i);
   expect(noDocumentsText).not.toBeInTheDocument();
 
-  const documentTitle = screen.getByText(/Documentos de Test User/i);
+  const documentTitle = screen.getByText(/Test User's Documents/i);
   expect(documentTitle).toBeInTheDocument();
 
   const documentItems = screen.queryAllByRole('listitem');
