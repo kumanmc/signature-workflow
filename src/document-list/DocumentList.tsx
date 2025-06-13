@@ -2,7 +2,8 @@ import React from 'react';
 import { useAppStore } from '../store/index';
 import { useMemo } from 'react';
 import { Document } from '../store/types';
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, List, Typography } from '@mui/material';
+import UploadedDocument from '../uploaded-document/UploadedDocument';
 
 
 const DocumentList = () => {
@@ -38,20 +39,11 @@ const DocumentList = () => {
         </Typography>
       ) : (
         <List>
-          {userDocuments.map((doc) => (<UploadedDocument key={doc.id} {...doc}/> ))}
+          {userDocuments.map((doc) => (<UploadedDocument key={doc.id} {...doc} />))}
         </List>
       )}
     </Box>
   );
 };
-
-const UploadedDocument =(props : Document) => {
-  return (
-    <ListItem key={props.id} aria-label="Documents">
-      <ListItemText primary={<Typography variant="h6">{props.name}</Typography>} />
-    </ListItem>
-  );
-};
-
 
 export default DocumentList;
