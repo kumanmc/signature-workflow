@@ -11,7 +11,18 @@ export interface UserSlice {
   resetUserSlice: () => void;
 }
 
-export interface AppState extends UserSlice {
-  // Add other slices here if needed
+export interface Document {
+  id: string;
+  name: string;
+  uploadedByUserId: string;
+  signs: [];
+}
+
+export interface DocumentSlice {
+  documents: Document[];
+  getDocumentsByUserId: (userId: string) => Document[];
+  resetDocumentSlice: () => void;
+}
+export interface AppState extends UserSlice, DocumentSlice {
   resetAllSlices: () => void;
 }
