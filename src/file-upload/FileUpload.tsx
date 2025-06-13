@@ -6,6 +6,7 @@ import { Button, Box, Typography, Paper } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useAppStore } from '../store/index';
 import { Document } from '../store/types';
+import { FileRejection } from 'react-dropzone';
 
 interface FileUploadProps {
   maxFileSizeMb?: number;
@@ -36,7 +37,7 @@ const FileUpload = (props: FileUploadProps) => {
     // - Manejar errores
   };
 
-  const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
+  const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
     if (acceptedFiles.length > 0) {
       handleDocumentsUpload(acceptedFiles);
     }

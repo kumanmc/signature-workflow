@@ -29,7 +29,7 @@ const DocumentList = () => {
           textAlign: 'left',
         }}
       >
-        {currentUser.name}'s Documents
+        {`${currentUser.name}'s Documents`}
       </Typography>
 
       {userDocuments.length === 0 ? (
