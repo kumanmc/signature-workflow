@@ -11,8 +11,6 @@ const Header = () => {
 
   const handleUserChange = (event: React.SyntheticEvent, userSelected: User) => {
     setCurrentUser(userSelected);
-    console.log('User selected:', userSelected);
-
   };
 
   return (
