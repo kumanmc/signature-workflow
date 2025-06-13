@@ -8,11 +8,12 @@ import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
 const DocumentList = () => {
   const currentUser = useAppStore((state) => state.currentUser);
   const getDocumentsByUserId = useAppStore((state) => state.getDocumentsByUserId);
+  const documents = useAppStore((state) => state.documents);
 
   // Memoize the list of documents for the current user
   const userDocuments: Document[] = useMemo(() => {
     return getDocumentsByUserId(currentUser.id);
-  }, [currentUser, getDocumentsByUserId]);
+  }, [currentUser, documents]);
 
   return (
     <Box
@@ -38,7 +39,7 @@ const DocumentList = () => {
       ) : (
         <List>
           {userDocuments.map((doc) => (
-            <ListItem key={doc.id}>
+            <ListItem key={doc.id} aria-label="Documents">
               <ListItemText primary={<Typography variant="h6">{doc.name}</Typography>} />
             </ListItem>
           ))}

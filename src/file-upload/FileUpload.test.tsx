@@ -5,8 +5,6 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import FileUpload from './FileUpload';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 describe('FileUpload component', () => {
   let consoleLogSpy: jest.SpyInstance;
   let consoleErrorSpy: jest.SpyInstance;
@@ -71,7 +69,7 @@ describe('FileUpload component', () => {
     const fileInputElement = screen.getByTestId('dropzone-input');
     await userEvent.upload(fileInputElement, [testFilePdf, testFileTxt]); // Upload directly to the input
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(consoleLogSpy).toHaveBeenCalledWith('Files ready:', [testFilePdf, testFileTxt]);
       expect(consoleErrorSpy).not.toHaveBeenCalled();
     });
@@ -93,7 +91,7 @@ describe('FileUpload component', () => {
 
     await userEvent.upload(fileInputElement, filesToUpload);
 
-    await waitFor(() => {
+    waitFor(() => {
       expect(consoleLogSpy).toHaveBeenCalledWith('Files ready:', [validPdf]);
       expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringContaining('Large.docx - file-too-large - File is larger than 1048576 bytes'));
       expect(consoleErrorSpy).toHaveBeenCalledTimes(1);

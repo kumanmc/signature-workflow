@@ -46,15 +46,21 @@ test('Show list with documents', () => {
     documents: [
       {
         id: '1', name: 'Document 1', uploadedByUserId: 'user1',
-        signs: []
+        signs: [],
+        uploadedAt: new Date(),
+        file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
       },
       {
         id: '2', name: 'Document 2', uploadedByUserId: 'user1',
-        signs: []
+        signs: [],
+        uploadedAt: new Date(),
+        file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
       },
       {
         id: '3', name: 'Document 3', uploadedByUserId: 'user2',
-        signs: []
+        signs: [],
+        uploadedAt: new Date(),
+        file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
       },
     ],
     currentUser: { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
@@ -69,8 +75,7 @@ test('Show list with documents', () => {
 
   const documentTitle = screen.getByText(/Test User's Documents/i);
   expect(documentTitle).toBeInTheDocument();
-
-  const documentItems = screen.queryAllByRole('listitem');
+  const documentItems = screen.queryAllByRole('listitem', { name: /Documents/i });
   expect(documentItems.length).toBe(2);
 
   const documentItem = screen.getByText(/Document 1/i);

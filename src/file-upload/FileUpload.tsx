@@ -4,17 +4,32 @@ import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button, Box, Typography, Paper } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { useAppStore } from '../store/index';
+import { Document } from '../store/types';
 
 interface FileUploadProps {
   maxFileSizeMb?: number;
 }
 
 const FileUpload = (props: FileUploadProps) => {
-
-  let maxFileSizeMb = props.maxFileSizeMb || 1;
+  const currentUser = useAppStore((state) => state.currentUser);
+  const uploadDocument = useAppStore((state) => state.uploadDocument);
+  const maxFileSizeMb = props.maxFileSizeMb || 1;
 
   const handleDocumentsUpload = (files: File[]) => {
     console.log('Files ready:', files);
+
+    files.forEach(file => {
+      uploadDocument({
+        id: crypto.randomUUID(),
+        name: file.name,
+        uploadedByUserId: currentUser.id,
+        uploadedAt: new Date(),
+        file: file,
+        signs: [],
+      } as Document);
+      console.log('Uploading file:', file.name);
+    });
     //TODO:
     // - Actualizar el estado del store con los archivos.
     // - Mostrar loading o algo asi
@@ -30,7 +45,7 @@ const FileUpload = (props: FileUploadProps) => {
         console.error(fileRejection.file.name + ' - ' + fileRejection.errors[0].code + ' - ' + fileRejection.errors[0].message);
       });
     }
-  }, [handleDocumentsUpload]);
+  }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
