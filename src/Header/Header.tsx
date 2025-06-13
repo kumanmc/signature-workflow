@@ -34,7 +34,7 @@ const Header = () => {
         Use the dropdown below to switch between users and simulate login/logout functionality.
       </Typography>
       <Grid container justifyContent="center" sx={{ mt: '4' }}>
-        <Grid item xs={12} sm={8} md={6} lg={4} >
+        <Grid size={{xs:12, sm:8, md:6, lg:4 }}>
           <Autocomplete
             disableClearable
             id="user-selector"
