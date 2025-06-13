@@ -1,12 +1,13 @@
 import React from 'react';
-import './App.css';
+import Header from './Header/Header';
+import { Container } from '@mui/material';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Signature Workflow</h1>
-      </header>
+      <Container maxWidth="lg">
+        <Header />
+      </Container>
     </div>
   );
 }
