@@ -7,6 +7,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useAppStore } from '../store/index';
 import { Document } from '../store/types';
 import { FileRejection } from 'react-dropzone';
+import { generateGUID } from '../helpers/generate-GUID';
 
 interface FileUploadProps {
   maxFileSizeMb?: number;
@@ -22,7 +23,7 @@ const FileUpload = (props: FileUploadProps) => {
 
     files.forEach(file => {
       uploadDocument({
-        id: crypto.randomUUID(),
+        id: generateGUID(),
         name: file.name,
         uploadedByUserId: currentUser.id,
         uploadedAt: new Date(),
