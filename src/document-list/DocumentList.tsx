@@ -38,15 +38,20 @@ const DocumentList = () => {
         </Typography>
       ) : (
         <List>
-          {userDocuments.map((doc) => (
-            <ListItem key={doc.id} aria-label="Documents">
-              <ListItemText primary={<Typography variant="h6">{doc.name}</Typography>} />
-            </ListItem>
-          ))}
+          {userDocuments.map((doc) => (<UploadedDocument key={doc.id} {...doc}/> ))}
         </List>
       )}
     </Box>
   );
 };
+
+const UploadedDocument =(props : Document) => {
+  return (
+    <ListItem key={props.id} aria-label="Documents">
+      <ListItemText primary={<Typography variant="h6">{props.name}</Typography>} />
+    </ListItem>
+  );
+};
+
 
 export default DocumentList;
