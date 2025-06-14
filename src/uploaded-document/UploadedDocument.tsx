@@ -68,6 +68,7 @@ const UploadedDocument = (props: Document) => {
                       xs: '0.875rem',
                       sm: '1rem',
                     },
+                    display: 'block',
                   }}
                 >
                   {`Uploaded on: ${new Date(props.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
@@ -82,7 +83,7 @@ const UploadedDocument = (props: Document) => {
                     },
                   }}
                 >
-                  <Box component="span" sx={{ color: 'text.secondary', marginRight: '4px' }} aria-label='Status'>
+                  <Box component="span" sx={{ color: 'text.secondary', marginRight: '4px', fontWeight: 'bold' }} aria-label='Status'>
                     Status
                   </Box>
                   <Box component="span" sx={{ color: status.style, fontWeight: 'bold' }}>
