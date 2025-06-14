@@ -27,6 +27,7 @@ test('renders the document details correctly', () => {
   expect(screen.getByLabelText('View document')).toBeInTheDocument();
   expect(screen.getByLabelText('Sign document')).toBeInTheDocument();
   expect(screen.getByLabelText('Request sign document')).toBeInTheDocument();
+  expect(screen.getByLabelText('Decline document')).toBeInTheDocument();
 
   expect(screen.getByLabelText('Status')).toBeInTheDocument();
   expect(screen.getByText('Pending')).toBeInTheDocument();

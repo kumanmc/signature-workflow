@@ -39,7 +39,7 @@ const UploadedDocument = (props: Document) => {
       }}
     >
       <Grid container alignItems="center" spacing={2} sx={{ width: '100%' }}>
-        <Grid size={{ xs: 12, sm: 8 }}>
+        <Grid size={{ xs: 12, sm: 7 }}>
           <ListItemText
             primary={
               <Typography
@@ -96,7 +96,7 @@ const UploadedDocument = (props: Document) => {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 4 }}>
+        <Grid size={{ xs: 12, sm: 5 }}>
           <Box
             sx={{
               display: 'flex',
@@ -125,13 +125,38 @@ const UploadedDocument = (props: Document) => {
               },
             }}
           >
-            <Button variant="contained" size="small" aria-label='View document'>
+            <Button variant="outlined" size="small" aria-label='View document'>
               View
             </Button>
-            <Button variant="contained" size="small" aria-label='Sign document'>
+            <Button
+              variant="contained"
+              size="small"
+              aria-label='Sign document'
+              sx={{
+                backgroundColor: 'success.main',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'success.dark',
+                },
+              }}
+            >
               Sign
             </Button>
-            <Button variant="outlined" size="small" aria-label='Request sign document'>
+            <Button
+              variant="contained"
+              size="small"
+              aria-label='Decline document'
+              sx={{
+                backgroundColor: 'error.main',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'error.dark',
+                },
+              }}
+            >
+              Decline
+            </Button>
+            <Button variant="contained" size="small" aria-label='Request sign document'>
               Request Sign
             </Button>
           </Box>
