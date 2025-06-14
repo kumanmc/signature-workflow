@@ -17,7 +17,7 @@ export interface Document {
   uploadedByUserId: string;
   uploadedAt: Date;
   file: File;
-  signs: [];
+  sign: Sign;
 }
 
 export interface DocumentSlice {
@@ -26,6 +26,20 @@ export interface DocumentSlice {
   uploadDocument: (document: Document) => void;
   resetDocumentSlice: () => void;
 }
+
+export interface Sign {
+  id: string;
+  signedRequestAt: Date | null;
+  signedAt: Date | null;
+  declinedAt: Date | null;
+}
+
+export interface RequestedSign extends Sign {
+  userId: string;
+  email: string;
+  documentId: string;
+}
+
 export interface AppState extends UserSlice, DocumentSlice {
   resetAllSlices: () => void;
 }

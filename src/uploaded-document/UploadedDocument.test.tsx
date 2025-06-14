@@ -1,16 +1,23 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import UploadedDocument from './UploadedDocument';
-import { Document } from '../store/types';
+import { Document, Sign } from '../store/types';
 
 test('renders the document details correctly', () => {
+  const mockedSign: Sign = {
+    id: '1',
+    signedRequestAt: null,
+    signedAt: null,
+    declinedAt: null
+  };
+
   const mockDocument: Document = {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
     uploadedByUserId: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
-    signs: [],
+    sign: mockedSign,
   };
 
   render(<UploadedDocument {...mockDocument} />);
@@ -21,6 +28,5 @@ test('renders the document details correctly', () => {
   expect(screen.getByLabelText('View document')).toBeInTheDocument();
   expect(screen.getByLabelText('Sign document')).toBeInTheDocument();
   expect(screen.getByLabelText('Request sign document')).toBeInTheDocument();
-
 
 });

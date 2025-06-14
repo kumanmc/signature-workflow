@@ -28,7 +28,6 @@ const FileUpload = (props: FileUploadProps) => {
         uploadedByUserId: currentUser.id,
         uploadedAt: new Date(),
         file: file,
-        signs: [],
       } as Document);
       console.log('Uploading file:', file.name);
     });

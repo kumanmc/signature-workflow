@@ -42,25 +42,32 @@ test('Show list without documents', () => {
 
 test('Show list with documents', () => {
 
+  const mockedSign = {
+    id: '',
+    signedRequestAt: null,
+    signedAt: null,
+    declinedAt: null
+  };
+
   setupStoreForTest({
     documents: [
       {
         id: '1', name: 'Document 1', uploadedByUserId: 'user1',
-        signs: [],
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
+        sign: mockedSign,
       },
       {
         id: '2', name: 'Document 2', uploadedByUserId: 'user1',
-        signs: [],
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
+        sign: mockedSign,
       },
       {
         id: '3', name: 'Document 3', uploadedByUserId: 'user2',
-        signs: [],
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
+        sign: mockedSign,
       },
     ],
     currentUser: { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
