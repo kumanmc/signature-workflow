@@ -10,6 +10,19 @@ import {
 } from '@mui/material';
 
 const UploadedDocument = (props: Document) => {
+
+  const status = {
+    style: 'info.main',
+    label: 'Pending',
+  };
+  if (props.sign.signedAt) {
+    status.style = 'success.main';
+    status.label = 'Signed';
+  } else if (props.sign.declinedAt) {
+    status.style = 'error.main';
+    status.label = 'Declined';
+  }
+
   return (
     <ListItem
       key={props.id}
@@ -45,18 +58,40 @@ const UploadedDocument = (props: Document) => {
               </Typography>
             }
             secondary={
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'text.secondary',
-                  fontSize: {
-                    xs: '0.875rem',
-                    sm: '1rem',
-                  },
-                }}
-              >
-                {`Uploaded on: ${new Date(props.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short'})}`}
-              </Typography>
+              <>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{
+                    color: 'text.secondary',
+                    fontSize: {
+                      xs: '0.875rem',
+                      sm: '1rem',
+                    },
+                  }}
+                >
+                  {`Uploaded on: ${new Date(props.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{
+                    fontSize: {
+                      xs: '0.875rem',
+                      sm: '1rem',
+                    },
+                  }}
+                >
+                  <Box component="span" sx={{ color: 'text.secondary', marginRight: '4px' }} aria-label='Status'>
+                    Status
+                  </Box>
+                  <Box component="span" sx={{ color: status.style, fontWeight: 'bold' }}>
+                    {status.label}
+                  </Box>
+                </Typography>
+              </>
+
+
             }
           />
         </Grid>

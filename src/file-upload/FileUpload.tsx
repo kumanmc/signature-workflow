@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { Button, Box, Typography, Paper } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useAppStore } from '../store/index';
-import { Document } from '../store/types';
+import { Document, Sign } from '../store/types';
 import { FileRejection } from 'react-dropzone';
 import { generateGUID } from '../helpers/generate-GUID';
 
@@ -19,7 +19,6 @@ const FileUpload = (props: FileUploadProps) => {
   const maxFileSizeMb = props.maxFileSizeMb || 1;
 
   const handleDocumentsUpload = (files: File[]) => {
-    console.log('Files ready:', files);
 
     files.forEach(file => {
       uploadDocument({
@@ -28,8 +27,12 @@ const FileUpload = (props: FileUploadProps) => {
         uploadedByUserId: currentUser.id,
         uploadedAt: new Date(),
         file: file,
+        sign: {
+          id: generateGUID(),
+          signedAt: null,
+          declinedAt: null,
+        } as Sign,
       } as Document);
-      console.log('Uploading file:', file.name);
     });
     //TODO:
     // - Actualizar el estado del store con los archivos.
@@ -43,6 +46,7 @@ const FileUpload = (props: FileUploadProps) => {
     }
     if (fileRejections.length > 0) {
       fileRejections.forEach(fileRejection => {
+        //TODO: show error message to user
         console.error(fileRejection.file.name + ' - ' + fileRejection.errors[0].code + ' - ' + fileRejection.errors[0].message);
       });
     }

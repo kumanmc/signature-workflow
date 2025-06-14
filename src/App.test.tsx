@@ -55,5 +55,7 @@ test('Integration test uploading documents: displays uploaded documents and upda
 
     expect(docItem1).toBeInTheDocument();
     expect(docItem2).toBeInTheDocument();
+
+    expect(screen.getAllByText('Pending')).toHaveLength(2);
   });
 });

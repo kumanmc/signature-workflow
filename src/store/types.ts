@@ -29,7 +29,6 @@ export interface DocumentSlice {
 
 export interface Sign {
   id: string;
-  signedRequestAt: Date | null;
   signedAt: Date | null;
   declinedAt: Date | null;
 }
@@ -37,6 +36,7 @@ export interface Sign {
 export interface RequestedSign extends Sign {
   userId: string;
   email: string;
+  signedRequestAt: Date | null;
   documentId: string;
 }
 
