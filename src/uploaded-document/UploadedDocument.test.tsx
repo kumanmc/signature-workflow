@@ -17,7 +17,7 @@ describe('UploadedDocument Component', () => {
 
     render(<UploadedDocument {...mockDocument} />);
     expect(screen.getByText(mockDocument.name)).toBeInTheDocument();
-    expect(screen.getByText('Uploaded on: 01/10/2023')).toBeInTheDocument();
+    expect(screen.getByText('Uploaded on: 01/10/2023, 02:00')).toBeInTheDocument();
     expect(screen.getByLabelText('Document')).toBeInTheDocument();
   });
 });

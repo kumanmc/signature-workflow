@@ -21,16 +21,19 @@ const UploadedDocument = (props: Document) => {
       }
       secondary={
         <Typography
-        variant="body2"
-        sx={{
-          color: '#555',
-          fontSize: {
-          xs: '0.875rem',
-          sm: '1rem',
-          },
-        }}
+          variant="body2"
+          sx={{
+            color: 'text.secondary',
+            fontSize: {
+              xs: '0.875rem',
+              sm: '1rem',
+            },
+          }}
         >
-        {`Uploaded on: ${new Date(props.uploadedAt).toLocaleDateString('en-GB')}`}
+          {`Uploaded on: ${new Date(props.uploadedAt).toLocaleString('en-GB', {
+            dateStyle: 'short',
+            timeStyle: 'short',
+          })}`}
         </Typography>
       }
       />
