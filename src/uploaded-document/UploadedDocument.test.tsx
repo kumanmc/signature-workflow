@@ -54,6 +54,10 @@ test('Status Signed', () => {
 
   expect(screen.getByLabelText('Status')).toBeInTheDocument();
   expect(screen.getByText('Signed')).toBeInTheDocument();
+  const signBtn = screen.queryByLabelText('Sign document');
+  expect(signBtn).toBeDisabled();
+  const declineBtn = screen.queryByLabelText('Decline document');
+  expect(declineBtn).toBeDisabled();
 
 });
 
@@ -77,5 +81,9 @@ test('Status Declined', () => {
 
   expect(screen.getByLabelText('Status')).toBeInTheDocument();
   expect(screen.getByText('Declined')).toBeInTheDocument();
+  const signBtn = screen.queryByLabelText('Sign document');
+  expect(signBtn).toBeDisabled();
+  const declineBtn = screen.queryByLabelText('Decline document');
+  expect(declineBtn).toBeDisabled();
 
 });

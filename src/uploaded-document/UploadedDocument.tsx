@@ -14,13 +14,19 @@ const UploadedDocument = (props: Document) => {
   const status = {
     style: 'info.main',
     label: 'Pending',
+    signDisabled: false,
+    declineDisabled: false,
   };
   if (props.sign.signedAt) {
     status.style = 'success.main';
     status.label = 'Signed';
+    status.signDisabled = true;
+    status.declineDisabled = true;
   } else if (props.sign.declinedAt) {
     status.style = 'error.main';
     status.label = 'Declined';
+    status.signDisabled = true;
+    status.declineDisabled = true;
   }
 
   return (
@@ -133,6 +139,7 @@ const UploadedDocument = (props: Document) => {
               variant="contained"
               size="small"
               aria-label='Sign document'
+              disabled={status.signDisabled}
               sx={{
                 backgroundColor: 'success.main',
                 color: 'white',
@@ -147,6 +154,7 @@ const UploadedDocument = (props: Document) => {
               variant="contained"
               size="small"
               aria-label='Decline document'
+              disabled={status.declineDisabled}
               sx={{
                 backgroundColor: 'error.main',
                 color: 'white',
