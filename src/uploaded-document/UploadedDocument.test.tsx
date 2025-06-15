@@ -5,6 +5,7 @@ import { render, screen, waitFor, act, fireEvent } from '@testing-library/react'
 global.URL.createObjectURL = jest.fn(() => 'mocked-url');
 import UploadedDocument from './UploadedDocument';
 import { Document, Sign } from '../store/types';
+import { selectOptions } from '@testing-library/user-event/dist/types/utility';
 
 test('renders the document details correctly', () => {
   const mockedSign: Sign = {
@@ -177,16 +178,60 @@ test('handles request sign form and email validation', () => {
     fireEvent.click(sendButton);
   });
   waitFor(() => {
-    expect(screen.queryByText('Request sent successfully')).toBeInTheDocument();
-  });
-
-  act(() => {
-    requestButton.click();
+    expect(screen.getByText('Request sent successfully')).toBeInTheDocument();
   });
 
   waitFor(() => {
-    expect(screen.queryByText('Enter email to request signature:')).not.toBeInTheDocument();
-  }
-  );
+    expect(screen.getByText('Request sent successfully')).not.toBeInTheDocument();
+  });
 
 });
+
+test('Test that after tome out success message disappears', async () => {
+  jest.useFakeTimers();
+  const mockedSign: Sign = {
+    id: '1',
+    signedAt: null,
+    declinedAt: null,
+  };
+
+  const mockDocument: Document = {
+    id: '1',
+    name: 'Test Document',
+    uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
+    uploadedByUserId: '123',
+    file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
+    sign: mockedSign,
+  };
+
+  render(<UploadedDocument {...mockDocument} />);
+
+  const requestButton = screen.getByLabelText('Request sign document');
+  act(() => {
+    fireEvent.click(requestButton);
+  });
+
+  const emailInput = screen.getByPlaceholderText('Enter email');
+  const sendButton = screen.getByLabelText('Send request');
+
+  fireEvent.change(emailInput, { target: { value: 'validemail@example.com' } });
+  expect(emailInput).toHaveValue('validemail@example.com');
+  expect(sendButton).not.toBeDisabled();
+
+  act(() => {
+    fireEvent.click(sendButton);
+  });
+
+  const successMessage = screen.queryByText('Request sent successfully');
+  expect(successMessage).toBeInTheDocument();
+  act(() => {
+    jest.advanceTimersByTime(1000);
+  });
+
+  const emailPrompt = screen.queryByText('Enter email to request signature:');
+  expect(successMessage).not.toBeInTheDocument();
+  expect(emailPrompt).not.toBeInTheDocument();
+
+  jest.useRealTimers();
+});
+
