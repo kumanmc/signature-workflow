@@ -2,8 +2,6 @@ import React from 'react';
 import { Document } from '../store/types';
 import {
   ListItem,
-  ListItemText,
-  Typography,
   Grid,
   Box,
   Button,
@@ -14,6 +12,7 @@ import { Sign } from '../store/types';
 import { generateGUID } from '../helpers/generate-GUID';
 import RequestSignForm from './RequestedSignForm';
 import DocumentViewer from './DocumentViewer';
+import DocumentDetails from './DocumentDetails';
 
 const UploadedDocument = (doc: Document) => {
 
@@ -60,19 +59,13 @@ const UploadedDocument = (doc: Document) => {
   }
 
   const status = {
-    style: 'info.main',
-    label: 'Pending',
     signDisabled: false,
     declineDisabled: false,
   };
   if (doc.sign.signedAt) {
-    status.style = 'success.main';
-    status.label = 'Signed';
     status.signDisabled = true;
     status.declineDisabled = true;
   } else if (doc.sign.declinedAt) {
-    status.style = 'error.main';
-    status.label = 'Declined';
     status.signDisabled = true;
     status.declineDisabled = true;
   }
@@ -93,64 +86,7 @@ const UploadedDocument = (doc: Document) => {
       }}
     >
       <Grid container alignItems="center" spacing={2} sx={{ width: '100%' }}>
-        <Grid size={{ xs: 12, sm: 7 }}>
-          <ListItemText
-            primary={
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: {
-                    xs: '1rem',
-                    sm: '1.25rem',
-                  },
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {doc.name}
-              </Typography>
-            }
-            secondary={
-              <>
-                <Typography
-                  variant="body2"
-                  component="span"
-                  sx={{
-                    color: 'text.secondary',
-                    fontSize: {
-                      xs: '0.875rem',
-                      sm: '1rem',
-                    },
-                    display: 'block',
-                  }}
-                >
-                  {`Uploaded on: ${new Date(doc.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  component="span"
-                  sx={{
-                    fontSize: {
-                      xs: '0.875rem',
-                      sm: '1rem',
-                    },
-                  }}
-                >
-                  <Box component="span" sx={{ color: 'text.secondary', marginRight: '4px', fontWeight: 'bold' }} aria-label='Status'>
-                    Status
-                  </Box>
-                  <Box component="span" sx={{ color: status.style, fontWeight: 'bold' }}>
-                    {status.label}
-                  </Box>
-                </Typography>
-              </>
-
-
-            }
-          />
-        </Grid>
-
+        <DocumentDetails doc={doc} />
         <Grid size={{ xs: 12, sm: 5 }}>
           <Box
             sx={{
