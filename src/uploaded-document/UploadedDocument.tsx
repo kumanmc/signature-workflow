@@ -9,7 +9,21 @@ import {
   Button,
 } from '@mui/material';
 
+import { useAppStore } from '../store/index';
+import { Sign } from '../store/types';
+
 const UploadedDocument = (props: Document) => {
+
+  const declineDocument = useAppStore((state) => state.declineDocument);
+
+  const handleDecline = () => {
+    const sign: Sign = {
+      id: props.sign.id,
+      signedAt: null,
+      declinedAt: new Date(),
+    };
+    declineDocument({ ...props, sign });
+  }
 
   const status = {
     style: 'info.main',
@@ -155,6 +169,7 @@ const UploadedDocument = (props: Document) => {
               size="small"
               aria-label='Decline document'
               disabled={status.declineDisabled}
+              onClick={handleDecline}
               sx={{
                 backgroundColor: 'error.main',
                 color: 'white',

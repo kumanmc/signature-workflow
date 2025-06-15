@@ -24,6 +24,7 @@ export interface DocumentSlice {
   documents: Document[];
   getDocumentsByUserId: (userId: string) => Document[];
   uploadDocument: (document: Document) => void;
+  declineDocument: (document: Document) => void;
   resetDocumentSlice: () => void;
 }
 
