@@ -12,26 +12,26 @@ import {
 import { useAppStore } from '../store/index';
 import { Sign } from '../store/types';
 
-const UploadedDocument = (props: Document) => {
+const UploadedDocument = (doc: Document) => {
 
   const declineDocument = useAppStore((state) => state.declineDocument);
   const signDocument = useAppStore((state) => state.signDocument);
 
   const handleDecline = () => {
     const sign: Sign = {
-      id: props.sign.id,
+      id: doc.sign.id,
       signedAt: null,
       declinedAt: new Date(),
     };
-    declineDocument({ ...props, sign });
+    declineDocument({ ...doc, sign });
   }
   const handleSign = () => {
     const sign: Sign = {
-      id: props.sign.id,
+      id: doc.sign.id,
       signedAt: new Date(),
       declinedAt: null,
     };
-    signDocument({ ...props, sign });
+    signDocument({ ...doc, sign });
   }
 
   const status = {
@@ -40,12 +40,12 @@ const UploadedDocument = (props: Document) => {
     signDisabled: false,
     declineDisabled: false,
   };
-  if (props.sign.signedAt) {
+  if (doc.sign.signedAt) {
     status.style = 'success.main';
     status.label = 'Signed';
     status.signDisabled = true;
     status.declineDisabled = true;
-  } else if (props.sign.declinedAt) {
+  } else if (doc.sign.declinedAt) {
     status.style = 'error.main';
     status.label = 'Declined';
     status.signDisabled = true;
@@ -54,7 +54,7 @@ const UploadedDocument = (props: Document) => {
 
   return (
     <ListItem
-      key={props.id}
+      key={doc.id}
       aria-label="Document"
       sx={{
         width: '100%',
@@ -83,7 +83,7 @@ const UploadedDocument = (props: Document) => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {props.name}
+                {doc.name}
               </Typography>
             }
             secondary={
@@ -100,7 +100,7 @@ const UploadedDocument = (props: Document) => {
                     display: 'block',
                   }}
                 >
-                  {`Uploaded on: ${new Date(props.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
+                  {`Uploaded on: ${new Date(doc.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
                 </Typography>
                 <Typography
                   variant="body2"
