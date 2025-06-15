@@ -41,7 +41,13 @@ export interface RequestedSign extends Sign {
   signedRequestAt: Date | null;
   documentId: string;
 }
+export interface RequestedSignSlice {
+  requestedSigns: RequestedSign[];
+  getRequestedSignByDocumentId: (documentId: string) => RequestedSign[];
+  resetRequestedSign: () => void;
+  addRequestedSign: (requestedSign: RequestedSign) => void;
+}
 
-export interface AppState extends UserSlice, DocumentSlice {
+export interface AppState extends UserSlice, DocumentSlice, RequestedSignSlice {
   resetAllSlices: () => void;
 }
