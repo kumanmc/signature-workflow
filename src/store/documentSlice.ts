@@ -10,16 +10,17 @@ export const createDocumentSlice: StateCreator<AppState, [], [], DocumentSlice> 
   getDocumentsByUserId: (userId) => get().documents.filter(doc => doc.uploadedByUserId === userId),
   uploadDocument: (document: Document) => { set(state => ({ documents: [...state.documents, document] })); },
   declineDocument: (document: Document) => {
+    // Same logic as signDocument, BUT by scalability I keep diff methods because API calls could be different and diff logic
     set(state => ({
       documents: state.documents.map(doc =>
-        doc.id === document.id ? { ...doc, sign: { ...doc.sign, declinedAt: new Date() } } : doc
+      doc.id === document.id ? { ...doc, ...document } : doc
       )
     }));
   },
   signDocument: (document: Document) => {
     set(state => ({
       documents: state.documents.map(doc =>
-        doc.id === document.id ? { ...doc, sign: { ...doc.sign, signedAt: new Date() } } : doc
+      doc.id === document.id ? { ...doc, ...document } : doc
       )
     }));
   },

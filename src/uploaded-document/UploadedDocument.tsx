@@ -11,6 +11,7 @@ import {
 
 import { useAppStore } from '../store/index';
 import { Sign } from '../store/types';
+import { generateGUID } from '../helpers/generate-GUID';
 
 const UploadedDocument = (doc: Document) => {
 
@@ -19,7 +20,7 @@ const UploadedDocument = (doc: Document) => {
 
   const handleDecline = () => {
     const sign: Sign = {
-      id: doc.sign.id,
+      id: generateGUID(),
       signedAt: null,
       declinedAt: new Date(),
     };
@@ -27,7 +28,7 @@ const UploadedDocument = (doc: Document) => {
   }
   const handleSign = () => {
     const sign: Sign = {
-      id: doc.sign.id,
+      id: generateGUID(),
       signedAt: new Date(),
       declinedAt: null,
     };
