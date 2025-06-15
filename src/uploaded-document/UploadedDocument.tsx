@@ -7,6 +7,7 @@ import {
   Grid,
   Box,
   Button,
+  TextField
 } from '@mui/material';
 
 import { useAppStore } from '../store/index';
@@ -18,6 +19,18 @@ const UploadedDocument = (doc: Document) => {
   const declineDocument = useAppStore((state) => state.declineDocument);
   const signDocument = useAppStore((state) => state.signDocument);
   const [showDocument, setShowDocument] = React.useState(false);
+  const [showRequestForm, setShowRequestForm] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+
+  const handleRequestSign = () => {
+    setShowRequestForm(!showRequestForm);
+  };
+
+  const handleSendRequest = () => {
+    //TODO: send email request to sign the document
+    setEmail('');
+    setShowRequestForm(false);
+  };
 
   const handleViewDocument = () => {
     setShowDocument(!showDocument);
@@ -201,12 +214,78 @@ const UploadedDocument = (doc: Document) => {
             >
               Decline
             </Button>
-            <Button variant="contained" size="small" aria-label='Request sign document'>
-              Request Sign
+            <Button
+              variant="contained"
+              size="small"
+              aria-label='Request sign document'
+              onClick={handleRequestSign}
+            >
+              {showRequestForm ? 'Cancel' : 'Request Sign'}
             </Button>
           </Box>
 
         </Grid>
+        {showRequestForm && (
+          <Grid size={{ xs: 12 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem',
+                marginTop: '1rem',
+                width: '100%',
+              }}
+            >
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Enter email to request signature:
+              </Typography>
+              <Box
+                component="form"
+                sx={{
+                  display: 'flex',
+                  gap: '0.5rem',
+                  alignItems: 'center',
+                }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSendRequest();
+                }}
+              >
+                <TextField
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  placeholder="Enter email"
+                  required
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    flex: 1,
+                  }}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="small"
+                  aria-label="Send request"
+                  disabled={!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+                  sx={{
+                    backgroundColor: 'primary.main',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: 'primary.dark',
+                    },
+                  }}
+                >
+                  Send
+                </Button>
+              </Box>
+            </Box>
+          </Grid>
+        )}
         {showDocument && (
           <Grid size={{ xs: 12 }}>
             <Box

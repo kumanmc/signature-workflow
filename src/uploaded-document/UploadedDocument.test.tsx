@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
 
 // Mock URL.createObjectURL
 global.URL.createObjectURL = jest.fn(() => 'mocked-url');
@@ -124,4 +124,69 @@ test('toggles document view correctly', () => {
     viewButton.click();
   });
   expect(screen.queryByTitle(mockDocument.name)).not.toBeInTheDocument();
+});
+
+test('handles request sign form and email validation', () => {
+  const mockedSign: Sign = {
+    id: '1',
+    signedAt: null,
+    declinedAt: null,
+  };
+
+  const mockDocument: Document = {
+    id: '1',
+    name: 'Test Document',
+    uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
+    uploadedByUserId: '123',
+    file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
+    sign: mockedSign,
+  };
+
+  render(<UploadedDocument {...mockDocument} />);
+
+  const requestButton = screen.getByLabelText('Request sign document');
+  expect(requestButton).toBeInTheDocument();
+  expect(screen.queryByText('Enter email to request signature:')).not.toBeInTheDocument();
+
+  act(() => {
+    fireEvent.click(requestButton);
+  });
+
+  expect(screen.getByText('Enter email to request signature:')).toBeInTheDocument();
+  const emailInput = screen.getByPlaceholderText('Enter email');
+  expect(emailInput).toBeInTheDocument();
+  const sendButton = screen.getByLabelText('Send request');
+  expect(sendButton).toBeDisabled();
+
+  fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
+  expect(emailInput).toHaveValue('invalid-email');
+  waitFor(() => {
+    expect(screen.queryByText('Invalid email address')).toBeInTheDocument();
+  });
+
+  fireEvent.change(emailInput, { target: { value: 'validemail@example.com' } });
+  expect(emailInput).toHaveValue('validemail@example.com');
+  waitFor(() => {
+    expect(screen.queryByText('Invalid email address')).not.toBeInTheDocument();
+  });
+
+  expect(sendButton).not.toBeDisabled();
+
+
+  act(() => {
+    fireEvent.click(sendButton);
+  });
+  waitFor(() => {
+    expect(screen.queryByText('Request sent successfully')).toBeInTheDocument();
+  });
+
+  act(() => {
+    requestButton.click();
+  });
+
+  waitFor(() => {
+    expect(screen.queryByText('Enter email to request signature:')).not.toBeInTheDocument();
+  }
+  );
+
 });
