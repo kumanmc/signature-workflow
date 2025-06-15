@@ -17,6 +17,11 @@ const UploadedDocument = (doc: Document) => {
 
   const declineDocument = useAppStore((state) => state.declineDocument);
   const signDocument = useAppStore((state) => state.signDocument);
+  const [showDocument, setShowDocument] = React.useState(false);
+
+  const handleViewDocument = () => {
+    setShowDocument(!showDocument);
+  };
 
   const handleDecline = () => {
     const sign: Sign = {
@@ -156,8 +161,13 @@ const UploadedDocument = (doc: Document) => {
               },
             }}
           >
-            <Button variant="outlined" size="small" aria-label='View document'>
-              View
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={handleViewDocument}
+              aria-label='View document'
+            >
+              {showDocument ? 'Hide' : 'View'}
             </Button>
             <Button
               variant="contained"
@@ -195,7 +205,30 @@ const UploadedDocument = (doc: Document) => {
               Request Sign
             </Button>
           </Box>
+
         </Grid>
+        {showDocument && (
+          <Grid size={{ xs: 12 }}>
+            <Box
+              sx={{
+                marginTop: '1rem',
+                width: '100%',
+                height: '500px',
+                border: '1px solid #e0e0e0',
+              }}
+            >
+              <iframe
+                src={URL.createObjectURL(doc.file)}
+                title={doc.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                }}
+              />
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </ListItem>
   );

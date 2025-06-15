@@ -1,5 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
+
+// Mock URL.createObjectURL
+global.URL.createObjectURL = jest.fn(() => 'mocked-url');
 import UploadedDocument from './UploadedDocument';
 import { Document, Sign } from '../store/types';
 
@@ -86,4 +89,39 @@ test('Status Declined', () => {
   const declineBtn = screen.queryByLabelText('Decline document');
   expect(declineBtn).toBeDisabled();
 
+});
+
+test('toggles document view correctly', () => {
+  const mockedSign: Sign = {
+    id: '1',
+    signedAt: null,
+    declinedAt: null,
+  };
+
+  const mockDocument: Document = {
+    id: '1',
+    name: 'Test Document',
+    uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
+    uploadedByUserId: '123',
+    file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
+    sign: mockedSign,
+  };
+
+  render(<UploadedDocument {...mockDocument} />);
+
+  const viewButton = screen.getByLabelText('View document');
+  expect(viewButton).toBeInTheDocument();
+  expect(screen.queryByTitle(mockDocument.name)).not.toBeInTheDocument();
+
+  act(() => {
+    viewButton.click();
+  });
+  waitFor(() => {
+    expect(screen.getByTitle(mockDocument.name)).toBeInTheDocument();
+  });
+
+  act(() => {
+    viewButton.click();
+  });
+  expect(screen.queryByTitle(mockDocument.name)).not.toBeInTheDocument();
 });
