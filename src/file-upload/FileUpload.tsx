@@ -1,8 +1,7 @@
-// src/file-upload/FileUpload.tsx
-
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Button, Box, Typography, Paper } from '@mui/material';
+import { Button, Box, Typography, Paper, Alert, IconButton, List, ListItem, ListItemText } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useAppStore } from '../store/index';
 import { Document, Sign } from '../store/types';
@@ -13,10 +12,18 @@ interface FileUploadProps {
   maxFileSizeMb?: number;
 }
 
+interface FileErrorDetail {
+  fileName: string;
+  code: string;
+  message: string;
+  id: string;
+}
+
 const FileUpload = (props: FileUploadProps) => {
   const currentUser = useAppStore((state) => state.currentUser);
   const uploadDocument = useAppStore((state) => state.uploadDocument);
   const maxFileSizeMb = props.maxFileSizeMb || 1;
+  const [error, setError] = useState<FileErrorDetail[]>([]);
 
   const handleDocumentsUpload = (files: File[]) => {
 
@@ -34,10 +41,6 @@ const FileUpload = (props: FileUploadProps) => {
         } as Sign,
       } as Document);
     });
-    //TODO:
-    // - Actualizar el estado del store con los archivos.
-    // - Mostrar loading o algo asi
-    // - Manejar errores
   };
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -45,10 +48,13 @@ const FileUpload = (props: FileUploadProps) => {
       handleDocumentsUpload(acceptedFiles);
     }
     if (fileRejections.length > 0) {
-      fileRejections.forEach(fileRejection => {
-        //TODO: show error message to user
-        console.error(fileRejection.file.name + ' - ' + fileRejection.errors[0].code + ' - ' + fileRejection.errors[0].message);
-      });
+      const errors: FileErrorDetail[] = fileRejections.map(fileRejection => ({
+        fileName: fileRejection.file.name,
+        code: fileRejection.errors[0].code,
+        message: fileRejection.errors[0].message,
+        id: `${fileRejection.file.name}-${fileRejection.errors[0].code}-${Date.now()}`,
+      }));
+      setError(errors);
     }
   }, []);
 
@@ -114,6 +120,69 @@ const FileUpload = (props: FileUploadProps) => {
           Select Documents
         </Button>
       </Paper>
+      <UploadErrorAlert error={error} setError={setError}/>
+    </Box>
+  );
+};
+
+interface UploadErrorAlertProps {
+  error: FileErrorDetail[];
+  setError: React.Dispatch<React.SetStateAction<FileErrorDetail[]>>;
+}
+
+const UploadErrorAlert = ({ error, setError }: UploadErrorAlertProps) => {
+
+  if (error.length === 0) {
+    return null;
+  }
+
+  return (
+    <Box sx={{ width: '100%', mx: 'auto', my: 2 }}>
+      <Alert
+        severity="error"
+        action={
+          <IconButton
+            aria-label="close-file-alert"
+            color="inherit"
+            size="small"
+            onClick={() => {
+              setError([]);
+            }}
+          >
+            <CloseIcon fontSize="inherit" />
+          </IconButton>
+        }
+        sx={{
+          '.MuiAlert-message': {
+            width: '100%',
+          },
+        }}
+      >
+        <Typography variant="h6" component="div" sx={{ mb: 1 }}>
+          File upload errors!
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          The following issues were found with the files:
+        </Typography>
+        <List dense disablePadding>
+          {error.map((errorDetail) => (
+            <ListItem key={errorDetail.id} disableGutters>
+              <ListItemText
+                primary={
+                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                    {errorDetail.fileName}
+                  </Typography>
+                }
+                secondary={
+                  <Typography variant="caption" color="text.secondary">
+                    {errorDetail.message} ({errorDetail.code})
+                  </Typography>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Alert>
     </Box>
   );
 };
