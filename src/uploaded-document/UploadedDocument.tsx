@@ -4,7 +4,6 @@ import {
   ListItem,
   Grid,
   Box,
-  Button,
   Tabs,
   Tab,
   Typography,
@@ -12,11 +11,8 @@ import {
 import { useMemo } from 'react';
 
 import { useAppStore } from '../store/index';
-import { Sign } from '../store/types';
-import { generateGUID } from '../helpers/generate-GUID';
-import RequestSignForm from './RequestedSignForm';
-import DocumentViewer from './DocumentViewer';
 import DocumentDetails from './DocumentDetails';
+import { ActionButtons } from './ActionButtons';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,17 +42,9 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const UploadedDocument = (doc: Document) => {
-  const declineDocument = useAppStore((state) => state.declineDocument);
-  const signDocument = useAppStore((state) => state.signDocument);
-  const [showDocument, setShowDocument] = React.useState(false);
-  const [showRequestForm, setShowRequestForm] = React.useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = React.useState(false);
-  const [email, setEmail] = React.useState('');
   const [currentTab, setCurrentTab] = React.useState(0);
 
   const getRequestedSignByDocumentId = useAppStore((state) => state.getRequestedSignByDocumentId);
-  const addRequestedSign = useAppStore((state) => state.addRequestedSign);
-  const currentUser = useAppStore((state) => state.currentUser);
   const requestedSigns = useAppStore((state) => state.requestedSigns);
 
   const requestedSignsFilteredByDoc: RequestedSign[] = useMemo(() => {
@@ -66,50 +54,6 @@ const UploadedDocument = (doc: Document) => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
-
-  const handleRequestSign = () => {
-    setShowRequestForm(!showRequestForm);
-  };
-
-  const handleSendRequest = () => {
-    setShowSuccessMessage(true);
-    setTimeout(() => {
-      setShowSuccessMessage(false);
-      setEmail('');
-      setShowRequestForm(false);
-      addRequestedSign({
-        id: generateGUID(),
-        documentId: doc.id,
-        userId: currentUser.id,
-        email: email,
-        createdAt: new Date(),
-        declinedAt: null,
-        signedAt: null,
-        signedRequestAt: null,
-      } as RequestedSign);
-    }, 1000);
-  };
-
-  const handleViewDocument = () => {
-    setShowDocument(!showDocument);
-  };
-
-  const handleDecline = () => {
-    const sign: Sign = {
-      id: generateGUID(),
-      signedAt: null,
-      declinedAt: new Date(),
-    };
-    declineDocument({ ...doc, sign });
-  }
-  const handleSign = () => {
-    const sign: Sign = {
-      id: generateGUID(),
-      signedAt: new Date(),
-      declinedAt: null,
-    };
-    signDocument({ ...doc, sign });
-  }
 
   const status = {
     signDisabled: false,
@@ -149,95 +93,11 @@ const UploadedDocument = (doc: Document) => {
       <TabPanel value={currentTab} index={0}>
         <Grid container alignItems="center" spacing={2} sx={{ width: '100%', mt: 0 }}>
           <DocumentDetails doc={doc} />
-          <Grid size={{ xs: 12, sm: 5 }}>
-            <Box
-              sx={{
-                display: 'flex',
-                gap: '0.5rem',
-                justifyContent: {
-                  xs: 'flex-start',
-                  sm: 'flex-end',
-                },
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-                alignItems: {
-                  xs: 'flex-start',
-                  sm: 'center',
-                },
-                width: {
-                  xs: '100%',
-                  sm: 'auto',
-                },
-                '& > button': {
-                  width: {
-                    xs: '100%',
-                    sm: 'auto',
-                  },
-                },
-              }}
-            >
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={handleViewDocument}
-                aria-label='View document'
-              >
-                {showDocument ? 'Hide' : 'View'}
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                aria-label='Sign document'
-                disabled={status.signDisabled}
-                onClick={handleSign}
-                sx={{
-                  backgroundColor: 'success.main',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: 'success.dark',
-                  },
-                }}
-              >
-                Sign
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                aria-label='Decline document'
-                disabled={status.declineDisabled}
-                onClick={handleDecline}
-                sx={{
-                  backgroundColor: 'error.main',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: 'error.dark',
-                  },
-                }}
-              >
-                Decline
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                aria-label='Request sign document'
-                onClick={handleRequestSign}
-                disabled={showSuccessMessage}
-              >
-                {showRequestForm ? 'Cancel' : 'Request Sign'}
-              </Button>
-            </Box>
-          </Grid>
-          {showDocument && (<DocumentViewer doc={doc} />)}
-          {showRequestForm && (
-            <RequestSignForm
-              showSuccessMessage={showSuccessMessage}
-              email={email}
-              setEmail={setEmail}
-              handleSendRequest={handleSendRequest}
-            />
-          )}
+          <ActionButtons
+            doc={doc}
+            status={status}
+          />
+
         </Grid>
       </TabPanel>
 
@@ -252,24 +112,6 @@ const UploadedDocument = (doc: Document) => {
               <Typography key={index} variant="body2">
                 {request.email} - {'request.status'}
               </Typography>
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="body2">
-                  {doc.sign.signedAt ? 'Document has been signed.' : 'No sign requests made yet.'}
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                {doc.sign.declinedAt && (
-                  <Typography variant="body2" color="error.main">
-                    Document has been declined.
-                  </Typography>
-                )}
-                {!doc.sign.signedAt && !doc.sign.declinedAt && (
-                  <Typography variant="body2" color="text.secondary">
-                    Document is pending signature.
-                  </Typography>
-                )}
-              </Box>
             </>
 
             ))
