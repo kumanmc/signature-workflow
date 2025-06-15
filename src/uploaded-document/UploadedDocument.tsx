@@ -13,6 +13,7 @@ import { useAppStore } from '../store/index';
 import { Sign } from '../store/types';
 import { generateGUID } from '../helpers/generate-GUID';
 import RequestSignForm from './RequestedSignForm';
+import DocumentViewer from './DocumentViewer';
 
 const UploadedDocument = (doc: Document) => {
 
@@ -239,28 +240,7 @@ const UploadedDocument = (doc: Document) => {
             handleSendRequest={handleSendRequest}
           />
         )}
-        {showDocument && (
-          <Grid size={{ xs: 12 }}>
-            <Box
-              sx={{
-                marginTop: '1rem',
-                width: '100%',
-                height: '500px',
-                border: '1px solid #e0e0e0',
-              }}
-            >
-              <iframe
-                src={URL.createObjectURL(doc.file)}
-                title={doc.name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  border: 'none',
-                }}
-              />
-            </Box>
-          </Grid>
-        )}
+        {showDocument && (<DocumentViewer doc={doc} />)}
       </Grid>
     </ListItem>
   );
