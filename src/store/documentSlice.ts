@@ -16,5 +16,12 @@ export const createDocumentSlice: StateCreator<AppState, [], [], DocumentSlice> 
       )
     }));
   },
+  signDocument: (document: Document) => {
+    set(state => ({
+      documents: state.documents.map(doc =>
+        doc.id === document.id ? { ...doc, sign: { ...doc.sign, signedAt: new Date() } } : doc
+      )
+    }));
+  },
   resetDocumentSlice: () => set(initialDocumentStateProperties),
 });

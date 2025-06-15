@@ -15,6 +15,7 @@ import { Sign } from '../store/types';
 const UploadedDocument = (props: Document) => {
 
   const declineDocument = useAppStore((state) => state.declineDocument);
+  const signDocument = useAppStore((state) => state.signDocument);
 
   const handleDecline = () => {
     const sign: Sign = {
@@ -23,6 +24,14 @@ const UploadedDocument = (props: Document) => {
       declinedAt: new Date(),
     };
     declineDocument({ ...props, sign });
+  }
+  const handleSign = () => {
+    const sign: Sign = {
+      id: props.sign.id,
+      signedAt: new Date(),
+      declinedAt: null,
+    };
+    signDocument({ ...props, sign });
   }
 
   const status = {
@@ -154,6 +163,7 @@ const UploadedDocument = (props: Document) => {
               size="small"
               aria-label='Sign document'
               disabled={status.signDisabled}
+              onClick={handleSign}
               sx={{
                 backgroundColor: 'success.main',
                 color: 'white',
