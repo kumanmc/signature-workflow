@@ -5,7 +5,6 @@ import { render, screen, waitFor, act, fireEvent } from '@testing-library/react'
 global.URL.createObjectURL = jest.fn(() => 'mocked-url');
 import UploadedDocument from './UploadedDocument';
 import { Document, Sign } from '../store/types';
-import { selectOptions } from '@testing-library/user-event/dist/types/utility';
 
 test('renders the document details correctly', () => {
   const mockedSign: Sign = {
