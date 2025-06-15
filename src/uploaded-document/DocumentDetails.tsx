@@ -1,20 +1,11 @@
 import React from 'react';
 import { ListItemText, Typography, Box } from "@mui/material";
 import { Document } from '../store/types';
+import { getStatus } from '../helpers/getStatus';
 
 const DocumentDetails = ({ doc }: { doc: Document }) => {
 
-  const status = {
-    style: 'info.main',
-    label: 'Pending',
-  };
-  if (doc.sign.signedAt) {
-    status.style = 'success.main';
-    status.label = 'Signed';
-  } else if (doc.sign.declinedAt) {
-    status.style = 'error.main';
-    status.label = 'Declined';
-  }
+  const status = getStatus(doc.sign);
 
   const primary = (
     <Typography
