@@ -53,6 +53,8 @@ export interface RequestedSignSlice {
   requestedSigns: RequestedSign[];
   getRequestedSignByDocumentId: (documentId: string) => RequestedSign[];
   getRequestedSignByEmail: (email: string) => RequestedSign[];
+  declineRequestedSign: (requestedSign: RequestedSign) => void;
+  signRequestedSign: (requestedSign: RequestedSign) => void;
   resetRequestedSign: () => void;
   addRequestedSign: (requestedSign: RequestedSign) => void;
 }

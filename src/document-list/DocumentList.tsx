@@ -12,6 +12,7 @@ const DocumentList = () => {
   const getDocumentsByUserId = useAppStore((state) => state.getDocumentsByUserId);
   const getRequestedSignByEmail = useAppStore((state) => state.getRequestedSignByEmail);
   const documents = useAppStore((state) => state.documents);
+  const requestedSigns = useAppStore((state) => state.requestedSigns);
 
   // Memoize the list of documents for the current user
   const userDocuments: UserDocument[] = useMemo(() => {
@@ -27,7 +28,7 @@ const DocumentList = () => {
       }
     });
     return documentsFilteredByUser.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime());
-  }, [currentUser, documents]);
+  }, [currentUser, documents, requestedSigns]);
 
   return (
     <Box
@@ -53,11 +54,11 @@ const DocumentList = () => {
       ) : (
         <List>
           {
-            userDocuments.map((doc) => (
+            userDocuments.map((doc, index) => (
               isDocumentRequested(doc) ?
-                <RequestedSign key={doc.id} {...doc} />
+                <RequestedSign key={index} {...doc} />
                 :
-                <UploadedDocument key={doc.id} {...doc} />
+                <UploadedDocument key={index}  {...doc} />
             )
             )}
         </List>

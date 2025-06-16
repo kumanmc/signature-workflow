@@ -12,5 +12,20 @@ export const createRequestedSignSlice: StateCreator<AppState, [], [], RequestedS
   getRequestedSignByEmail: (email: string) =>
     get().requestedSigns.filter(sign => sign.email === email),
   resetRequestedSign: () => set(initialRequestedSignProperties),
+  declineRequestedSign: (requestSign: RequestedSign) => {
+    // Same logic, BUT by scalability I keep diff methods because API calls could be different and diff logic
+    set(state => ({
+      requestedSigns: state.requestedSigns.map(sign =>
+        sign.id === requestSign.id ? { ...sign, ...requestSign } : sign
+      ),
+    }));
+  },
+  signRequestedSign: (requestSign: RequestedSign) => {
+    set(state => ({
+      requestedSigns: state.requestedSigns.map(sign =>
+        sign.id === requestSign.id ? { ...sign, ...requestSign } : sign
+      ),
+    }));
+  },
   addRequestedSign:(requestedSign: RequestedSign) => { set(state => ({ requestedSigns: [...state.requestedSigns, requestedSign] })); },
 });

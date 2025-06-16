@@ -7,7 +7,6 @@ import { useAppStore } from '../store/index';
 import { Document, Sign } from '../store/types';
 import { FileRejection } from 'react-dropzone';
 import { generateGUID } from '../helpers/generate-GUID';
-import { log } from 'console';
 
 interface FileUploadProps {
   maxFileSizeMb?: number;

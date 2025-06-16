@@ -14,6 +14,8 @@ export const ActionButtons = ({ doc }: {
   const declineDocument = useAppStore((state) => state.declineDocument);
   const signDocument = useAppStore((state) => state.signDocument);
   const addRequestedSign = useAppStore((state) => state.addRequestedSign);
+  const signRequestedSign = useAppStore((state) => state.signRequestedSign);
+  const declineRequestedSign = useAppStore((state) => state.declineRequestedSign);
 
   const [showDocument, setShowDocument] = React.useState(false);
   const [showRequestForm, setShowRequestForm] = React.useState(false);
@@ -27,20 +29,36 @@ export const ActionButtons = ({ doc }: {
   };
 
   const handleDecline = () => {
-    const sign: Sign = {
-      id: generateGUID(),
-      signedAt: null,
-      declinedAt: new Date(),
-    };
-    declineDocument({ ...doc, sign });
+    if (isDocumentRequested(doc)) {
+      const reqSign = {
+        ...doc.requestedSign,
+        declinedAt: new Date(),
+      };
+      declineRequestedSign(reqSign);
+    } else {
+      const sign: Sign = {
+        id: generateGUID(),
+        signedAt: null,
+        declinedAt: new Date(),
+      };
+      declineDocument({ ...doc, sign });
+    }
   }
   const handleSign = () => {
-    const sign: Sign = {
-      id: generateGUID(),
-      signedAt: new Date(),
-      declinedAt: null,
-    };
-    signDocument({ ...doc, sign });
+    if (isDocumentRequested(doc)) {
+      const reqSign = {
+        ...doc.requestedSign,
+        signedAt: new Date(),
+      };
+      signRequestedSign(reqSign);
+    } else {
+      const sign: Sign = {
+        id: generateGUID(),
+        signedAt: new Date(),
+        declinedAt: null,
+      };
+      signDocument({ ...doc, sign });
+    }
   }
   const handleRequestSign = () => {
     setShowRequestForm(!showRequestForm);
