@@ -11,10 +11,10 @@ const DocumentDetails = ({ doc }: { doc: UserDocument }) => {
   let byUser = '';
 
   if (isDocumentRequested(doc)) {
-    const getUserById = useAppStore((state) => state.getUserById);
+    const getUserByEmail = useAppStore((state) => state.getUserByEmail);
     const userWhoRequested = useMemo(() => {
-      return getUserById(doc.uploadedByUserId)!;
-    }, [getUserById, doc.uploadedByUserId]);
+      return getUserByEmail(doc.uploadedBy)!;
+    }, [getUserByEmail, doc.uploadedBy]);
 
     byUser = ' by ' + userWhoRequested.name + '(' + userWhoRequested.email + ')' ;
     status = getStatus(doc.requestedSign);

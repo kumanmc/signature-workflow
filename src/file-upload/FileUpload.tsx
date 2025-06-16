@@ -31,7 +31,7 @@ const FileUpload = (props: FileUploadProps) => {
       uploadDocument({
         id: generateGUID(),
         name: file.name,
-        uploadedByUserId: currentUser.id,
+        uploadedBy: currentUser.email,
         uploadedAt: new Date(),
         file: file,
         sign: {

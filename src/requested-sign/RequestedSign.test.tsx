@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { render, screen, waitFor} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DocumentList from '../document-list/DocumentList';
 import { act as actHook } from '@testing-library/react';
@@ -35,7 +35,7 @@ test('one rquested document with Declined status', () => {
   };
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: '3',
     email: 'testuser@example.com',
     declinedAt: new Date('2023-02-01T00:00:00.000Z'),
@@ -44,7 +44,7 @@ test('one rquested document with Declined status', () => {
   };
   const mockRequestedSign2: RequestedSign = {
     id: '2',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: 'no-exist',
     email: 'testuser@example.com',
     declinedAt: null,
@@ -52,40 +52,40 @@ test('one rquested document with Declined status', () => {
     signedAt: null,
   };
   const customUsers = [
-    { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
-    { id: '2', name: 'Pique', email: 'pique@example.com' },
-    { id: '3', name: 'Shakira', email: 'shakira@example.com' },
+    { name: 'Test User', email: 'testuser@example.com' },
+    { name: 'Pique', email: 'pique@example.com' },
+    { name: 'Shakira', email: 'shakira@example.com' },
   ];
 
   setupStoreForTest({
     documents: [
       {
-        id: '1', name: 'Document 1', uploadedByUserId: 'user2',
+        id: '1', name: 'Document 1', uploadedBy: 'user2',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '2', name: 'Document 2', uploadedByUserId: 'user3',
+        id: '2', name: 'Document 2', uploadedBy: 'user3',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '3', name: 'Document 3', uploadedByUserId: '2',
+        id: '3', name: 'Document 3', uploadedBy: 'pique@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document3.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '4', name: 'Document 4', uploadedByUserId: 'pepe',
+        id: '4', name: 'Document 4', uploadedBy: 'pepe',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
     ],
     users: customUsers,
-    currentUser: { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
+    currentUser: { name: 'Test User', email: 'testuser@example.com' },
     requestedSigns: [mockRequestedSign, mockRequestedSign2],
   });
 
@@ -130,7 +130,7 @@ test('one requested document PENDING, then click on SIGN', async () => {
   };
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: '3',
     email: 'testuser@example.com',
     declinedAt: null,
@@ -139,7 +139,7 @@ test('one requested document PENDING, then click on SIGN', async () => {
   };
   const mockRequestedSign2: RequestedSign = {
     id: '2',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: 'no-exist',
     email: 'testuser@example.com',
     declinedAt: null,
@@ -147,40 +147,40 @@ test('one requested document PENDING, then click on SIGN', async () => {
     signedAt: null,
   };
   const customUsers = [
-    { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
-    { id: '2', name: 'Pique', email: 'pique@example.com' },
-    { id: '3', name: 'Shakira', email: 'shakira@example.com' },
+    { name: 'Test User', email: 'testuser@example.com' },
+    { name: 'Pique', email: 'pique@example.com' },
+    { name: 'Shakira', email: 'shakira@example.com' },
   ];
 
   setupStoreForTest({
     documents: [
       {
-        id: '1', name: 'Document 1', uploadedByUserId: 'user2',
+        id: '1', name: 'Document 1', uploadedBy: 'pique@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '2', name: 'Document 2', uploadedByUserId: 'user3',
+        id: '2', name: 'Document 2', uploadedBy: 'user3',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '3', name: 'Document 3', uploadedByUserId: '2',
+        id: '3', name: 'Document 3', uploadedBy: 'pique@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document3.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '4', name: 'Document 4', uploadedByUserId: 'pepe',
+        id: '4', name: 'Document 4', uploadedBy: 'pepe',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
     ],
     users: customUsers,
-    currentUser: { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
+    currentUser: { name: 'Test User', email: 'testuser@example.com' },
     requestedSigns: [mockRequestedSign, mockRequestedSign2],
   });
 
@@ -235,7 +235,7 @@ test('one requested document PENDING, then click on DECLINE', async () => {
   };
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: '3',
     email: 'testuser@example.com',
     declinedAt: null,
@@ -244,7 +244,7 @@ test('one requested document PENDING, then click on DECLINE', async () => {
   };
   const mockRequestedSign2: RequestedSign = {
     id: '2',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: 'no-exist',
     email: 'testuser@example.com',
     declinedAt: null,
@@ -252,40 +252,40 @@ test('one requested document PENDING, then click on DECLINE', async () => {
     signedAt: null,
   };
   const customUsers = [
-    { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
-    { id: '2', name: 'Pique', email: 'pique@example.com' },
-    { id: '3', name: 'Shakira', email: 'shakira@example.com' },
+    { name: 'Test User', email: 'testuser@example.com' },
+    { name: 'Pique', email: 'pique@example.com' },
+    { name: 'Shakira', email: 'shakira@example.com' },
   ];
 
   setupStoreForTest({
     documents: [
       {
-        id: '1', name: 'Document 1', uploadedByUserId: 'user2',
+        id: '1', name: 'Document 1', uploadedBy: 'user2',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '2', name: 'Document 2', uploadedByUserId: 'user3',
+        id: '2', name: 'Document 2', uploadedBy: 'user3',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '3', name: 'Document 3', uploadedByUserId: '2',
+        id: '3', name: 'Document 3', uploadedBy: 'pique@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document3.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '4', name: 'Document 4', uploadedByUserId: 'pepe',
+        id: '4', name: 'Document 4', uploadedBy: 'pepe',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
     ],
     users: customUsers,
-    currentUser: { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
+    currentUser: { name: 'Test User', email: 'testuser@example.com' },
     requestedSigns: [mockRequestedSign, mockRequestedSign2],
   });
 

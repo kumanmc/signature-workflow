@@ -7,7 +7,7 @@ const initialDocumentStateProperties = {
 
 export const createDocumentSlice: StateCreator<AppState, [], [], DocumentSlice> = (set, get) => ({
   ...initialDocumentStateProperties,
-  getDocumentsByUserId: (userId) => get().documents.filter(doc => doc.uploadedByUserId === userId),
+  getDocumentsByEmail: (email) => get().documents.filter(doc => doc.uploadedBy === email),
   uploadDocument: (document: Document) => { set(state => ({ documents: [...state.documents, document] })); },
   declineDocument: (document: Document) => {
     // Same logic as signDocument, BUT by scalability I keep diff methods because API calls could be different and diff logic

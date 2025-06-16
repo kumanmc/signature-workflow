@@ -37,7 +37,7 @@ test('renders the document details correctly', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -68,7 +68,7 @@ test('Status Signed', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -95,7 +95,7 @@ test('Status Declined', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -122,7 +122,7 @@ test('toggles document view correctly', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -157,7 +157,7 @@ test('handles request sign form and email validation', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -218,7 +218,7 @@ test('Test that after tome out success message disappears', async () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -265,7 +265,7 @@ test('handles tab change correctly', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -311,7 +311,7 @@ test('renders requested Sign dates correctly', () => {
 
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    userId: '123',
+    email: '123',
     documentId: '1',
     email: 'test@example.com',
     declinedAt: new Date('2023-10-09T00:00:00.000Z'),
@@ -323,7 +323,7 @@ test('renders requested Sign dates correctly', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };
@@ -364,7 +364,7 @@ test('renders requested Sign without dates', () => {
 
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    userId: '123',
+    email: '123',
     documentId: '1',
     email: 'test@example.com',
     declinedAt: null,
@@ -376,7 +376,7 @@ test('renders requested Sign without dates', () => {
     id: '1',
     name: 'Test Document',
     uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
-    uploadedByUserId: '123',
+    uploadedBy: '123',
     file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
     sign: mockedSign,
   };

@@ -51,7 +51,7 @@ test('Show list with documents', () => {
   };
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    userId: '2',
+    emailCreator: 'pique@example.com',
     documentId: '3',
     email: 'testuser@example.com',
     declinedAt: null,
@@ -60,48 +60,48 @@ test('Show list with documents', () => {
   };
   const mockRequestedSign2: RequestedSign = {
     id: '2',
-    userId: '2',
+    email: 'pique@example.com',
     documentId: 'no-exist',
-    email: 'testuser@example.com',
+    emailCreator: 'testuser@example.com',
     declinedAt: null,
     requestedAt: new Date('2023-02-01T00:00:00.000Z'),
     signedAt: null,
   };
   const customUsers = [
-    { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
-    { id: '2', name: 'Pique', email: 'pique@example.com' },
-    { id: '3', name: 'Shakira', email: 'shakira@example.com' },
+    { name: 'Test User', email: 'testuser@example.com' },
+    { name: 'Pique', email: 'pique@example.com' },
+    { name: 'Shakira', email: 'shakira@example.com' },
   ];
 
   setupStoreForTest({
     documents: [
       {
-        id: '1', name: 'Document 1', uploadedByUserId: 'user1',
+        id: '1', name: 'Document 1', uploadedBy: 'testuser@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '2', name: 'Document 2', uploadedByUserId: 'user1',
+        id: '2', name: 'Document 2', uploadedBy: 'testuser@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '3', name: 'Document 3', uploadedByUserId: '2',
+        id: '3', name: 'Document 3', uploadedBy: 'pique@example.com',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document3.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
       {
-        id: '4', name: 'Document 4', uploadedByUserId: 'pepe',
+        id: '4', name: 'Document 4', uploadedBy: 'pepe',
         uploadedAt: new Date(),
         file: new File(['valid content'], 'document1.pdf', { type: 'application/pdf' }),
         sign: mockedSign,
       },
     ],
     users: customUsers,
-    currentUser: { id: 'user1', name: 'Test User', email: 'testuser@example.com' },
+    currentUser: { name: 'Test User', email: 'testuser@example.com' },
     requestedSigns: [mockRequestedSign, mockRequestedSign2],
   });
 

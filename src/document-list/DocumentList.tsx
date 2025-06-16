@@ -9,25 +9,25 @@ import { isDocumentRequested } from '../helpers/typeGuard'
 
 const DocumentList = () => {
   const currentUser = useAppStore((state) => state.currentUser);
-  const getDocumentsByUserId = useAppStore((state) => state.getDocumentsByUserId);
+  const getDocumentsByEmail = useAppStore((state) => state.getDocumentsByEmail);
   const getRequestedSignByEmail = useAppStore((state) => state.getRequestedSignByEmail);
   const documents = useAppStore((state) => state.documents);
   const requestedSigns = useAppStore((state) => state.requestedSigns);
 
   // Memoize the list of documents for the current user
   const userDocuments: UserDocument[] = useMemo(() => {
-    const documentsFilteredByUser = getDocumentsByUserId(currentUser.id);
+    const documentsFilteredByEmail = getDocumentsByEmail(currentUser.email);
     const requestedSigns = getRequestedSignByEmail(currentUser.email);
     requestedSigns.forEach((sign) => {
       const existingDocument = documents.find((doc) => doc.id === sign.documentId);
       if (existingDocument) {
-        documentsFilteredByUser.push({
+        documentsFilteredByEmail.push({
           ...existingDocument,
           requestedSign: sign,
         } as DocumentRequested);
       }
     });
-    return documentsFilteredByUser.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime());
+    return documentsFilteredByEmail.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime());
   }, [currentUser, documents, requestedSigns]);
 
   return (

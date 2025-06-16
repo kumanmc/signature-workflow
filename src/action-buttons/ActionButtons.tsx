@@ -73,7 +73,7 @@ export const ActionButtons = ({ doc }: {
       addRequestedSign({
         id: generateGUID(),
         documentId: doc.id,
-        userId: currentUser.id,
+        emailCreator: currentUser.email,
         email: email,
         declinedAt: null,
         signedAt: null,
