@@ -1,10 +1,30 @@
 import React from 'react';
 import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
+import { act as actHook } from '@testing-library/react';
+import { useAppStore } from '../store';
 
 // Mock URL.createObjectURL
 global.URL.createObjectURL = jest.fn(() => 'mocked-url');
 import UploadedDocument from './UploadedDocument';
-import { Document, Sign } from '../store/types';
+import { Document, Sign, RequestedSign } from '../store/types';
+
+const setupStoreForTest = (partialState?: Partial<ReturnType<typeof useAppStore.getState>>) => {
+  actHook(() => {
+    useAppStore.getState().resetAllSlices();
+
+    if (partialState) {
+      useAppStore.setState(partialState);
+    }
+  });
+};
+
+// We'll reset the store before each test to ensure test isolation
+beforeEach(() => {
+  actHook(() => {
+    useAppStore.getState().resetAllSlices();
+  });
+});
+
 
 test('renders the document details correctly', () => {
   const mockedSign: Sign = {
@@ -234,3 +254,152 @@ test('Test that after tome out success message disappears', async () => {
   jest.useRealTimers();
 });
 
+test('handles tab change correctly', () => {
+  const mockedSign: Sign = {
+    id: '1',
+    signedAt: null,
+    declinedAt: null,
+  };
+
+  const mockDocument: Document = {
+    id: '1',
+    name: 'Test Document',
+    uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
+    uploadedByUserId: '123',
+    file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
+    sign: mockedSign,
+  };
+
+  render(<UploadedDocument {...mockDocument} />);
+
+  const documentDetailsTab = screen.getByText('Document Details');
+  const signRequestsTab = screen.getByText('Sign Requests');
+
+  // Initially, the first tab should be active
+  expect(screen.getByText('Document Details')).toBeInTheDocument();
+  expect(screen.queryByText('Sign Request History')).not.toBeInTheDocument();
+
+  // Switch to the second tab
+  act(() => {
+    fireEvent.click(signRequestsTab);
+  });
+
+  waitFor(() => {
+    expect(screen.getByText('Sign Request History')).toBeInTheDocument();
+    expect(screen.queryByText('Document Details')).not.toBeInTheDocument();
+  });
+
+  // Switch back to the first tab
+  act(() => {
+    fireEvent.click(documentDetailsTab);
+  });
+
+  waitFor(() => {
+    expect(screen.getByText('Document Details')).toBeInTheDocument();
+    expect(screen.queryByText('Sign Request History')).not.toBeInTheDocument();
+    expect(screen.getByText('No sign requests made yet.')).toBeInTheDocument();
+  });
+});
+
+test('renders requested Sign dates correctly', () => {
+
+  const mockedSign: Sign = {
+    id: '1',
+    signedAt: null,
+    declinedAt: null,
+  };
+
+  const mockRequestedSign: RequestedSign = {
+    id: '1',
+    userId: '123',
+    documentId: '1',
+    email: 'test@example.com',
+    declinedAt: new Date('2023-10-09T00:00:00.000Z'),
+    requestedAt: new Date('2023-02-01T00:00:00.000Z'),
+    signedAt: new Date('2023-10-21T00:00:00.000Z'),
+  };
+
+  const mockDocument: Document = {
+    id: '1',
+    name: 'Test Document',
+    uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
+    uploadedByUserId: '123',
+    file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
+    sign: mockedSign,
+  };
+
+  setupStoreForTest({
+    documents: [mockDocument],
+    requestedSigns: [mockRequestedSign],
+    currentUser: { id: '123', name: 'Test User', email: 'testuser@example.com' },
+  });
+
+  render(<UploadedDocument {...mockDocument} />);
+
+  const signRequestsTab = screen.getByText('Sign Requests');
+  act(() => {
+    fireEvent.click(signRequestsTab);
+  });
+
+  waitFor(() => {
+    expect(screen.getByText('Sign Request History')).toBeInTheDocument();
+    expect(screen.queryByText('Document Details')).not.toBeInTheDocument();
+  });
+
+  expect(screen.getByText('Requested on:')).toBeInTheDocument();
+  expect(screen.getByText(/1\/2\/23/i)).toBeInTheDocument();
+  expect(screen.getByText('Declined on:')).toBeInTheDocument();
+  expect(screen.getByText(/9\/10\/23/i)).toBeInTheDocument();
+  expect(screen.getByText('Signed on:')).toBeInTheDocument();
+  expect(screen.getByText(/21\/10\/23/i)).toBeInTheDocument();
+});
+
+test('renders requested Sign without dates', () => {
+
+  const mockedSign: Sign = {
+    id: '1',
+    signedAt: null,
+    declinedAt: null,
+  };
+
+  const mockRequestedSign: RequestedSign = {
+    id: '1',
+    userId: '123',
+    documentId: '1',
+    email: 'test@example.com',
+    declinedAt: null,
+    requestedAt: null,
+    signedAt: null,
+  };
+
+  const mockDocument: Document = {
+    id: '1',
+    name: 'Test Document',
+    uploadedAt: new Date('2023-10-01T00:00:00.000Z'),
+    uploadedByUserId: '123',
+    file: new File([''], 'test-document.pdf', { type: 'application/pdf' }),
+    sign: mockedSign,
+  };
+
+  setupStoreForTest({
+    documents: [mockDocument],
+    requestedSigns: [mockRequestedSign],
+    currentUser: { id: '123', name: 'Test User', email: 'testuser@example.com' },
+  });
+
+  render(<UploadedDocument {...mockDocument} />);
+
+  const signRequestsTab = screen.getByText('Sign Requests');
+  act(() => {
+    fireEvent.click(signRequestsTab);
+  });
+
+  waitFor(() => {
+    expect(screen.getByText('Sign Request History')).toBeInTheDocument();
+    expect(screen.queryByText('Document Details')).not.toBeInTheDocument();
+  });
+
+  expect(screen.queryByText('Requested on:')).not.toBeInTheDocument();
+  expect(screen.queryByText('Declined on:')).not.toBeInTheDocument();
+  expect(screen.queryByText('Signed on:')).not.toBeInTheDocument();
+});

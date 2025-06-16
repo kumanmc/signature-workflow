@@ -38,7 +38,7 @@ export interface Sign {
 export interface RequestedSign extends Sign {
   userId: string;
   email: string;
-  signedRequestAt: Date | null;
+  requestedAt: Date | null;
   documentId: string;
 }
 export interface RequestedSignSlice {

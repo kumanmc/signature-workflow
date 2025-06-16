@@ -6,9 +6,8 @@ import { generateGUID } from '../helpers/generate-GUID';
 import DocumentViewer from './DocumentViewer';
 import RequestSignForm from './RequestedSignForm';
 
-export const ActionButtons = ({ doc, status }: {
+export const ActionButtons = ({ doc }: {
   doc: Document;
-  status: { signDisabled: boolean; declineDisabled: boolean };
 }) => {
   const declineDocument = useAppStore((state) => state.declineDocument);
   const signDocument = useAppStore((state) => state.signDocument);
@@ -56,13 +55,25 @@ export const ActionButtons = ({ doc, status }: {
         documentId: doc.id,
         userId: currentUser.id,
         email: email,
-        createdAt: new Date(),
         declinedAt: null,
         signedAt: null,
-        signedRequestAt: null,
+        requestedAt: new Date(),
       } as RequestedSign);
     }, 1000);
   };
+
+  const status = {
+    signDisabled: false,
+    declineDisabled: false,
+  };
+  if (doc.sign.signedAt) {
+    status.signDisabled = true;
+    status.declineDisabled = true;
+  } else if (doc.sign.declinedAt) {
+    status.signDisabled = true;
+    status.declineDisabled = true;
+  }
+
 
   return (
     <>
