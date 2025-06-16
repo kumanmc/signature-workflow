@@ -8,6 +8,7 @@ export interface UserSlice {
   currentUser: User;
   users: User[];
   setCurrentUser: (user: User) => void;
+  getUserById: (userId: string) => User | undefined;
   resetUserSlice: () => void;
 }
 
@@ -19,6 +20,12 @@ export interface Document {
   file: File;
   sign: Sign;
 }
+
+export interface DocumentRequested extends Document {
+  requestedSign: RequestedSign;
+}
+
+export type UserDocument = Document | DocumentRequested;
 
 export interface DocumentSlice {
   documents: Document[];
@@ -41,9 +48,11 @@ export interface RequestedSign extends Sign {
   requestedAt: Date | null;
   documentId: string;
 }
+
 export interface RequestedSignSlice {
   requestedSigns: RequestedSign[];
   getRequestedSignByDocumentId: (documentId: string) => RequestedSign[];
+  getRequestedSignByEmail: (email: string) => RequestedSign[];
   resetRequestedSign: () => void;
   addRequestedSign: (requestedSign: RequestedSign) => void;
 }

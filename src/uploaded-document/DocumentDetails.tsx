@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ListItemText, Typography, Box } from "@mui/material";
-import { Document } from '../store/types';
+import { UserDocument } from '../store/types';
 import { getStatus } from '../helpers/getStatus';
+import { isDocumentRequested } from '../helpers/typeGuard'
+import { useAppStore } from '../store';
 
-const DocumentDetails = ({ doc }: { doc: Document }) => {
+const DocumentDetails = ({ doc }: { doc: UserDocument }) => {
 
-  const status = getStatus(doc.sign);
+  let status = null;
+  let byUser = '';
+
+  if (isDocumentRequested(doc)) {
+    const getUserById = useAppStore((state) => state.getUserById);
+    const userWhoRequested = useMemo(() => {
+      return getUserById(doc.uploadedByUserId)!;
+    }, [getUserById, doc.uploadedByUserId]);
+
+    byUser = ' by ' + userWhoRequested.name + '(' + userWhoRequested.email + ')' ;
+    status = getStatus(doc.requestedSign);
+  } else {
+    status = getStatus(doc.sign);
+  }
 
   const primary = (
     <>
@@ -38,7 +53,7 @@ const DocumentDetails = ({ doc }: { doc: Document }) => {
           display: 'block',
         }}
       >
-        {`Uploaded on: ${new Date(doc.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
+        {`Uploaded on: ${new Date(doc.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })} ${byUser}`}
       </Typography>
     </>
   );

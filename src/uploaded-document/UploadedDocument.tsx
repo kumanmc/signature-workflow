@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document } from '../store/types';
+import { UserDocument } from '../store/types';
 import {
   ListItem,
   Grid,
@@ -39,7 +39,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const UploadedDocument = (doc: Document) => {
+const UploadedDocument = (doc: UserDocument) => {
   const [currentTab, setCurrentTab] = React.useState(0);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {

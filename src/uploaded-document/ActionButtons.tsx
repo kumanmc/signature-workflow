@@ -5,6 +5,8 @@ import { Sign, Document, RequestedSign } from '../store/types';
 import { generateGUID } from '../helpers/generate-GUID';
 import DocumentViewer from './DocumentViewer';
 import RequestSignForm from './RequestedSignForm';
+import { getStatus } from '../helpers/getStatus';
+import { isDocumentRequested } from '../helpers/typeGuard'
 
 export const ActionButtons = ({ doc }: {
   doc: Document;
@@ -62,18 +64,12 @@ export const ActionButtons = ({ doc }: {
     }, 1000);
   };
 
-  const status = {
-    signDisabled: false,
-    declineDisabled: false,
-  };
-  if (doc.sign.signedAt) {
-    status.signDisabled = true;
-    status.declineDisabled = true;
-  } else if (doc.sign.declinedAt) {
-    status.signDisabled = true;
-    status.declineDisabled = true;
+  let status;
+  if (isDocumentRequested(doc)) {
+    status = getStatus(doc.requestedSign)
+  }else {
+    status = getStatus(doc.sign)
   }
-
 
   return (
     <>
@@ -146,7 +142,7 @@ export const ActionButtons = ({ doc }: {
           >
             Decline
           </Button>
-          <Button
+          { !isDocumentRequested(doc) && <Button
             variant="contained"
             size="small"
             aria-label="Request sign document"
@@ -154,7 +150,7 @@ export const ActionButtons = ({ doc }: {
             disabled={showSuccessMessage}
           >
             {showRequestForm ? 'Cancel' : 'Request Sign'}
-          </Button>
+          </Button>}
         </Box>
       </Grid>
       {showRequestForm && (

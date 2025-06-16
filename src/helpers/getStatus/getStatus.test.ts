@@ -11,6 +11,8 @@ describe('getStatus', () => {
     const expectedStatus: SignStatus = {
       style: 'info.main',
       label: 'Pending',
+      declineDisabled: false,
+      signDisabled: false,
     };
     expect(getStatus(sign)).toEqual(expectedStatus);
   });
@@ -24,6 +26,8 @@ describe('getStatus', () => {
     const expectedStatus: SignStatus = {
       style: 'success.main',
       label: 'Signed',
+      declineDisabled: true,
+      signDisabled: true,
     };
     expect(getStatus(sign)).toEqual(expectedStatus);
   });
@@ -37,6 +41,8 @@ describe('getStatus', () => {
     const expectedStatus: SignStatus = {
       style: 'error.main',
       label: 'Declined',
+      declineDisabled: true,
+      signDisabled: true,
     };
     expect(getStatus(sign)).toEqual(expectedStatus);
   });
@@ -50,6 +56,8 @@ describe('getStatus', () => {
     const expectedStatus: SignStatus = {
       style: 'success.main',
       label: 'Signed',
+      declineDisabled: true,
+      signDisabled: true,
     };
     expect(getStatus(sign)).toEqual(expectedStatus);
   });
@@ -63,6 +71,8 @@ describe('getStatus', () => {
     const expectedStatus: SignStatus = {
       style: 'success.main',
       label: 'Signed',
+      declineDisabled: true,
+      signDisabled: true,
     };
     expect(getStatus(sign)).toEqual(expectedStatus);
   });
@@ -76,6 +86,8 @@ describe('getStatus', () => {
     const expectedStatus: SignStatus = {
       style: 'error.main',
       label: 'Declined',
+      declineDisabled: true,
+      signDisabled: true,
     };
     expect(getStatus(sign)).toEqual(expectedStatus);
   });

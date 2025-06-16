@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppStore } from '../store/index';
 import { useMemo } from 'react';
-import { Document } from '../store/types';
+import { DocumentRequested, UserDocument } from '../store/types';
 import { Box, List, Typography } from '@mui/material';
 import UploadedDocument from '../uploaded-document/UploadedDocument';
 
@@ -9,11 +9,23 @@ import UploadedDocument from '../uploaded-document/UploadedDocument';
 const DocumentList = () => {
   const currentUser = useAppStore((state) => state.currentUser);
   const getDocumentsByUserId = useAppStore((state) => state.getDocumentsByUserId);
+  const getRequestedSignByEmail = useAppStore((state) => state.getRequestedSignByEmail);
   const documents = useAppStore((state) => state.documents);
 
   // Memoize the list of documents for the current user
-  const userDocuments: Document[] = useMemo(() => {
-    return getDocumentsByUserId(currentUser.id);
+  const userDocuments: UserDocument[] = useMemo(() => {
+    const documentsFilteredByUser = getDocumentsByUserId(currentUser.id);
+    const requestedSigns = getRequestedSignByEmail(currentUser.email);
+    requestedSigns.forEach((sign) => {
+      const existingDocument = documents.find((doc) => doc.id === sign.documentId);
+      if (existingDocument) {
+        documentsFilteredByUser.push({
+          ...existingDocument,
+          requestedSign: sign,
+        } as DocumentRequested);
+      }
+    });
+    return documentsFilteredByUser;
   }, [currentUser, documents]);
 
   return (

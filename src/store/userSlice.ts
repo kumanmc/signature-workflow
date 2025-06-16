@@ -13,8 +13,9 @@ const initialUserStateProperties = {
   users: hardcodedUsers,
 };
 
-export const createUserSlice: StateCreator<AppState, [], [], UserSlice> = (set) => ({
+export const createUserSlice: StateCreator<AppState, [], [], UserSlice> = (set, get) => ({
   ...initialUserStateProperties,
   setCurrentUser: (user: User) => set({ currentUser: user }),
+  getUserById: (userId: string) => get().users.find((user) => user.id === userId),
   resetUserSlice: () => set(initialUserStateProperties),
 });
