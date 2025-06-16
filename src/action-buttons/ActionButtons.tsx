@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Box, Button } from '@mui/material';
 import { useAppStore } from '../store/index';
-import { Sign, Document, RequestedSign } from '../store/types';
+import { Sign, Document, RequestedSign, Notification } from '../store/types';
 import { generateGUID } from '../helpers/generate-GUID';
 import DocumentViewer from './DocumentViewer';
 import RequestSignForm from './RequestedSignForm';
@@ -16,6 +16,7 @@ export const ActionButtons = ({ doc }: {
   const addRequestedSign = useAppStore((state) => state.addRequestedSign);
   const signRequestedSign = useAppStore((state) => state.signRequestedSign);
   const declineRequestedSign = useAppStore((state) => state.declineRequestedSign);
+  const sendNotification = useAppStore((state) => state.sendNotification);
 
   const [showDocument, setShowDocument] = React.useState(false);
   const [showRequestForm, setShowRequestForm] = React.useState(false);
@@ -35,6 +36,15 @@ export const ActionButtons = ({ doc }: {
         declinedAt: new Date(),
       };
       declineRequestedSign(reqSign);
+      sendNotification({
+        id: generateGUID(),
+        emailCreator: currentUser.email,
+        email: doc.uploadedBy,
+        type: 'Decline',
+        date: new Date(),
+        documentId: doc.id,
+        read: false,
+      } as Notification);
     } else {
       const sign: Sign = {
         id: generateGUID(),
@@ -51,6 +61,15 @@ export const ActionButtons = ({ doc }: {
         signedAt: new Date(),
       };
       signRequestedSign(reqSign);
+      sendNotification({
+        id: generateGUID(),
+        emailCreator: currentUser.email,
+        email: doc.uploadedBy,
+        type: 'Sign',
+        date: new Date(),
+        documentId: doc.id,
+        read: false,
+      } as Notification);
     } else {
       const sign: Sign = {
         id: generateGUID(),
@@ -79,6 +98,15 @@ export const ActionButtons = ({ doc }: {
         signedAt: null,
         requestedAt: new Date(),
       } as RequestedSign);
+      sendNotification({
+        id: generateGUID(),
+        emailCreator: currentUser.email,
+        email: email,
+        type: 'Request',
+        date: new Date(),
+        documentId: doc.id,
+        read: false,
+      } as Notification);
     }, 1000);
   };
 

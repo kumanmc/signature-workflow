@@ -311,7 +311,7 @@ test('renders requested Sign dates correctly', () => {
 
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    email: '123',
+    emailCreator: 'testuser@example.com',
     documentId: '1',
     email: 'test@example.com',
     declinedAt: new Date('2023-10-09T00:00:00.000Z'),
@@ -331,7 +331,7 @@ test('renders requested Sign dates correctly', () => {
   setupStoreForTest({
     documents: [mockDocument],
     requestedSigns: [mockRequestedSign],
-    currentUser: { id: '123', name: 'Test User', email: 'testuser@example.com' },
+    currentUser: { name: 'Test User', email: 'testuser@example.com' },
   });
 
   render(<UploadedDocument {...mockDocument} />);
@@ -364,7 +364,7 @@ test('renders requested Sign without dates', () => {
 
   const mockRequestedSign: RequestedSign = {
     id: '1',
-    email: '123',
+    emailCreator: 'testuser@example.com',
     documentId: '1',
     email: 'test@example.com',
     declinedAt: null,
@@ -384,7 +384,7 @@ test('renders requested Sign without dates', () => {
   setupStoreForTest({
     documents: [mockDocument],
     requestedSigns: [mockRequestedSign],
-    currentUser: { id: '123', name: 'Test User', email: 'testuser@example.com' },
+    currentUser: { name: 'Test User', email: 'testuser@example.com' },
   });
 
   render(<UploadedDocument {...mockDocument} />);

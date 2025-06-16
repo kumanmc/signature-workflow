@@ -58,6 +58,25 @@ export interface RequestedSignSlice {
   addRequestedSign: (requestedSign: RequestedSign) => void;
 }
 
-export interface AppState extends UserSlice, DocumentSlice, RequestedSignSlice {
+export type NotificationType = 'Request' | 'Sign' | 'Decline';
+export interface Notification {
+  id: string;
+  emailCreator: string;
+  email: string;
+  type: NotificationType;
+  date: Date;
+  documentId: string;
+  read: boolean;
+}
+
+export interface NotificationSlice {
+  notifications: Notification[];
+  sendNotification: (notification: Notification) => void;
+  getNotificationsByEmail: (email: string) => Notification[];
+  markAsRead: (notificationId: string) => void;
+  resetNotification: () => void;
+}
+
+export interface AppState extends UserSlice, DocumentSlice, RequestedSignSlice, NotificationSlice {
   resetAllSlices: () => void;
 }

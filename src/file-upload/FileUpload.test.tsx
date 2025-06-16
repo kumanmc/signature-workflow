@@ -34,7 +34,7 @@ test('renders the file upload area correctly with default text', () => {
 
 test('changes style on drag over and reverts on drag leave', async () => {
 
-  const currentUserForTest: User = { id: 'test-user-id', name: 'TestUser', email: 'test@example.com' };
+  const currentUserForTest: User = { name: 'TestUser', email: 'test@example.com' };
   setupStoreForTest({ currentUser: currentUserForTest });
   render(<FileUpload />);
 
@@ -67,7 +67,7 @@ test('changes style on drag over and reverts on drag leave', async () => {
 });
 
 test('handles rejection and accept file', async () => {
-  const currentUserForTest: User = { id: 'test-user-id', name: 'TestUser', email: 'test@example.com' };
+  const currentUserForTest: User = { name: 'TestUser', email: 'test@example.com' };
   setupStoreForTest({ currentUser: currentUserForTest });
   render(<FileUpload />);
 
