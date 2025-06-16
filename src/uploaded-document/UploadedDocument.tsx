@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import DocumentDetails from './DocumentDetails';
-import { ActionButtons } from './ActionButtons';
+import { ActionButtons } from '../action-buttons/ActionButtons';
 import RequestedSignHistory from './RequestedSignHistory';
 
 interface TabPanelProps {
