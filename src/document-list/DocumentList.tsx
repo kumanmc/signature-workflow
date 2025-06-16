@@ -4,7 +4,8 @@ import { useMemo } from 'react';
 import { DocumentRequested, UserDocument } from '../store/types';
 import { Box, List, Typography } from '@mui/material';
 import UploadedDocument from '../uploaded-document/UploadedDocument';
-
+import RequestedSign from '../requested-sign/RequestedSign';
+import { isDocumentRequested } from '../helpers/typeGuard'
 
 const DocumentList = () => {
   const currentUser = useAppStore((state) => state.currentUser);
@@ -25,7 +26,7 @@ const DocumentList = () => {
         } as DocumentRequested);
       }
     });
-    return documentsFilteredByUser;
+    return documentsFilteredByUser.sort((a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime());
   }, [currentUser, documents]);
 
   return (
@@ -51,7 +52,14 @@ const DocumentList = () => {
         </Typography>
       ) : (
         <List>
-          {userDocuments.map((doc) => (<UploadedDocument key={doc.id} {...doc} />))}
+          {
+            userDocuments.map((doc) => (
+              isDocumentRequested(doc) ?
+                <RequestedSign key={doc.id} {...doc} />
+                :
+                <UploadedDocument key={doc.id} {...doc} />
+            )
+            )}
         </List>
       )}
     </Box>
