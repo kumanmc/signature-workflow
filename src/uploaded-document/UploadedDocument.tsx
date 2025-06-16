@@ -6,6 +6,7 @@ import {
   Box,
   Tabs,
   Tab,
+  Typography,
 } from '@mui/material';
 import DocumentDetails from './DocumentDetails';
 import { ActionButtons } from './ActionButtons';
@@ -55,13 +56,29 @@ const UploadedDocument = (doc: Document) => {
         flexDirection: 'column',
         alignItems: 'flex-start',
         paddingY: { xs: 1, sm: 2 },
-        borderBottom: '1px solid #e0e0e0',
+        borderBottom: '1px solid #4285F4' ,
         '&:last-child': {
           borderBottom: 'none'
-        }
+        },
+        backgroundColor: '#fafafa',
       }}
     >
       <Box sx={{ width: '100%', borderBottom: 1, borderColor: 'divider' }}>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontSize: {
+              xs: '1rem',
+              sm: '1.25rem',
+            },
+            color: '#616161',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Filename: {doc.name}
+        </Typography>
         <Tabs value={currentTab} onChange={handleTabChange} aria-label="document details tabs">
           <Tab label="Document Details" id='simple-tab-0' aria-controls='simple-tabpanel-0' />
           <Tab label="Sign Requests" id='simple-tab-1' aria-controls='simple-tabpanel-1' />

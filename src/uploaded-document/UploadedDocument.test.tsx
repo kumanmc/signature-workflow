@@ -43,7 +43,7 @@ test('renders the document details correctly', () => {
   };
 
   render(<UploadedDocument {...mockDocument} />);
-  expect(screen.getByText(mockDocument.name)).toBeInTheDocument();
+  expect(screen.getByText('Filename: ' + mockDocument.name)).toBeInTheDocument();
   expect(screen.getByText('Uploaded on: 1/10/23, 2:00')).toBeInTheDocument();
   expect(screen.getByLabelText('Document')).toBeInTheDocument();
 

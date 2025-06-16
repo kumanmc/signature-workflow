@@ -8,24 +8,24 @@ const DocumentDetails = ({ doc }: { doc: Document }) => {
   const status = getStatus(doc.sign);
 
   const primary = (
-    <Typography
-      variant="h6"
-      sx={{
-        fontSize: {
-          xs: '1rem',
-          sm: '1.25rem',
-        },
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-      }}
-    >
-      {doc.name}
-    </Typography>
-  );
-
-  const secondary = (
     <>
+      <Typography
+        variant="body2"
+        component="span"
+        sx={{
+          fontSize: {
+            xs: '0.875rem',
+            sm: '1rem',
+          },
+        }}
+      >
+        <Box component="span" sx={{ color: 'text.secondary', marginRight: '4px' }} aria-label='Status'>
+          Status
+        </Box>
+        <Box component="span" sx={{ color: status.style, fontWeight: 'bold' }}>
+          {status.label}
+        </Box>
+      </Typography>
       <Typography
         variant="body2"
         component="span"
@@ -40,27 +40,10 @@ const DocumentDetails = ({ doc }: { doc: Document }) => {
       >
         {`Uploaded on: ${new Date(doc.uploadedAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}`}
       </Typography>
-      <Typography
-        variant="body2"
-        component="span"
-        sx={{
-          fontSize: {
-            xs: '0.875rem',
-            sm: '1rem',
-          },
-        }}
-      >
-        <Box component="span" sx={{ color: 'text.secondary', marginRight: '4px', fontWeight: 'bold' }} aria-label='Status'>
-          Status
-        </Box>
-        <Box component="span" sx={{ color: status.style, fontWeight: 'bold' }}>
-          {status.label}
-        </Box>
-      </Typography>
     </>
   );
 
-  return <ListItemText primary={primary} secondary={secondary} />;
+  return <ListItemText primary={primary} />;
 };
 
 export default DocumentDetails;
