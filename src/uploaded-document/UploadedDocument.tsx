@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, RequestedSign } from '../store/types';
+import { Document } from '../store/types';
 import {
   ListItem,
   Grid,
@@ -7,9 +7,6 @@ import {
   Tabs,
   Tab,
 } from '@mui/material';
-import { useMemo } from 'react';
-
-import { useAppStore } from '../store/index';
 import DocumentDetails from './DocumentDetails';
 import { ActionButtons } from './ActionButtons';
 import RequestedSignHistory from './RequestedSignHistory';
@@ -43,13 +40,6 @@ function TabPanel(props: TabPanelProps) {
 
 const UploadedDocument = (doc: Document) => {
   const [currentTab, setCurrentTab] = React.useState(0);
-
-  const getRequestedSignByDocumentId = useAppStore((state) => state.getRequestedSignByDocumentId);
-  const requestedSigns = useAppStore((state) => state.requestedSigns);
-
-  const requestedSignsFilteredByDoc: RequestedSign[] = useMemo(() => {
-    return getRequestedSignByDocumentId(doc.id);
-  }, [doc.id, getRequestedSignByDocumentId, requestedSigns]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
@@ -88,7 +78,7 @@ const UploadedDocument = (doc: Document) => {
       </TabPanel>
 
       <TabPanel key='2' value={currentTab} index={1}>
-        <RequestedSignHistory requestedSigns={requestedSignsFilteredByDoc} />
+        <RequestedSignHistory {...doc} />
       </TabPanel>
     </ListItem>
   );

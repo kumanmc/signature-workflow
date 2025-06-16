@@ -2,16 +2,22 @@ import React from "react";
 import { ListItem, ListItemText, Box, Typography, List } from "@mui/material";
 import { getStatus } from "../helpers/getStatus";
 import { RequestedSign } from "../store/types";
+import { Document } from "../store/types";
+import { useMemo } from 'react';
+import { useAppStore } from '../store/index';
 
-interface RequestedSignHistoryProps {
-  requestedSigns: RequestedSign[];
-}
+const RequestedSignHistory = (doc: Document) => {
 
-const RequestedSignHistory = ({ requestedSigns }: RequestedSignHistoryProps) => {
+  const getRequestedSignByDocumentId = useAppStore((state) => state.getRequestedSignByDocumentId);
+  const requestedSigns = useAppStore((state) => state.requestedSigns);
 
-  return requestedSigns && requestedSigns.length > 0 ? (
+  const requestedSignsFilteredByDoc: RequestedSign[] = useMemo(() => {
+    return getRequestedSignByDocumentId(doc.id);
+  }, [doc.id, getRequestedSignByDocumentId, requestedSigns]);
+
+  return requestedSignsFilteredByDoc && requestedSignsFilteredByDoc.length > 0 ? (
     <List disablePadding>{
-      requestedSigns.map((request) => {
+      requestedSignsFilteredByDoc.map((request) => {
         const requestStatus = getStatus({
           id: request.id,
           signedAt: request.signedAt,
