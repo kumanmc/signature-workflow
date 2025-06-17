@@ -4,6 +4,10 @@
 **Email:** mdavid29021984@gmail.com \
 **Linkedin:** https://www.linkedin.com/in/manuel-david-garcia-mateos-ba5b11109/ \
 
+100% code covered by tests
+![alt text](image.png)
+
+
 ## Available Scripts
 
 In the project directory, you can run:
