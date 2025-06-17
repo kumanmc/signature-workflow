@@ -1,4 +1,5 @@
 {
+  "homepage": "https://kumanmc.github.io/signature-workflow",
   "name": "signature-workflow",
   "version": "0.1.0",
   "private": true,
@@ -30,6 +31,8 @@
     "test-coverage": "react-scripts test --coverage --watchAll=false",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "jest": {
@@ -66,6 +69,7 @@
     "@eslint/js": "^9.0.0",
     "eslint": "^9.0.0",
     "eslint-plugin-react": "latest",
+    "gh-pages": "^6.3.0",
     "globals": "^15.0.0",
     "jest": "^27.5.1",
     "typescript-eslint": "^8.0.0"
