@@ -32,7 +32,7 @@ const DocumentList = () => {
 
   return (
     <Box
-      sx={{ mt: 4, p: 2, border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}
+      sx={{ mt: 4, p: 2, border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff', marginBottom: '100px' }}
       aria-label="Document list"
     >
       <Typography
