@@ -19,7 +19,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onMar
 
   let message = '';
   let messageColor = 'text.primary';
-  const notificationBackgroundColor = read ? 'background.paper' : 'primary.light';
+  const notificationBackgroundColor = read ? 'background.paper' : '#E3F2FD';
   const notificationShadow = read ? 'none' : '0px 2px 4px rgba(0,0,0,0.1)';
 
   switch (type) {

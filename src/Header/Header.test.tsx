@@ -25,7 +25,7 @@ beforeEach(() => {
 
 test('renders App title', () => {
   render(<Header />);
-  const linkElement = screen.getByText(/Signature Workflow/i);
+  const linkElement = screen.getByText(/Backend/i);
   expect(linkElement).toBeInTheDocument();
 });
 
