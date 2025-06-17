@@ -66,6 +66,7 @@ export interface Notification {
   type: NotificationType;
   date: Date;
   documentId: string;
+  fileName: string;
   read: boolean;
 }
 

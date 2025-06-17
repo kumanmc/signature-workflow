@@ -15,7 +15,7 @@ interface NotificationItemProps {
 }
 
 const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onMarkAsRead }) => {
-  const { id, emailCreator, email, type, date, read } = notification;
+  const { id, emailCreator, type, date, read, fileName } = notification;
 
   let message = '';
   let messageColor = 'text.primary';
@@ -54,14 +54,19 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onMar
       onClick={() => !read && onMarkAsRead(id)}
     >
       <ListItemText
-        primary={
+        primary={<>
           <Typography variant="body1" sx={{ fontWeight: read ? 'normal' : 'bold', color: messageColor }}>
+            {fileName}
+          </Typography>
+          <Typography variant="body2" sx={{ fontWeight: read ? 'normal' : 'bold', color: messageColor }}>
             {message}
           </Typography>
+        </>
+
         }
         secondary={
           <Typography variant="caption" color="text.secondary">
-            {`To: ${email} • ${new Date(date).toLocaleString()}`}
+            {`${new Date(date).toLocaleString()}`}
           </Typography>
         }
       />

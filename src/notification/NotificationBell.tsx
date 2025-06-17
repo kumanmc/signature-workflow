@@ -57,8 +57,8 @@ const NotificationBell = () => {
         }}
         PaperProps={{
           style: {
-            maxHeight: 300,
-            width: '35ch',
+            maxHeight: 400,
+            width: '40ch',
           },
         }}
       >

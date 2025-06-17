@@ -43,6 +43,7 @@ export const ActionButtons = ({ doc }: {
         type: 'Decline',
         date: new Date(),
         documentId: doc.id,
+        fileName: doc.name,
         read: false,
       } as Notification);
     } else {
@@ -68,6 +69,7 @@ export const ActionButtons = ({ doc }: {
         type: 'Sign',
         date: new Date(),
         documentId: doc.id,
+        fileName: doc.name,
         read: false,
       } as Notification);
     } else {
@@ -105,6 +107,7 @@ export const ActionButtons = ({ doc }: {
         type: 'Request',
         date: new Date(),
         documentId: doc.id,
+        fileName: doc.name,
         read: false,
       } as Notification);
     }, 1000);

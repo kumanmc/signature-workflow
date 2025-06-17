@@ -1,3 +1,4 @@
+import React from 'react';
 import { Typography, Box } from "@mui/material";
 import NotificationBell from "./NotificationBell";
 import { useAppStore } from "../store";

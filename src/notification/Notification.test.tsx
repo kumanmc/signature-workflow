@@ -14,6 +14,7 @@ describe('NotificationItem Component', () => {
     type: 'Request',
     date: new Date(),
     documentId: 'doc123',
+    fileName: 'doc123',
     read: false,
   };
 
@@ -32,7 +33,7 @@ describe('NotificationItem Component', () => {
     );
 
     const secondaryText = screen.getByText(
-      `To: recipient@example.com • ${new Date(mockNotification.date).toLocaleString()}`
+      `${new Date(mockNotification.date).toLocaleString()}`
     );
     expect(secondaryText).toBeInTheDocument();
   });
