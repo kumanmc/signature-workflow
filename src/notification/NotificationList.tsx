@@ -8,7 +8,7 @@ const NotificationList = () => {
   const currentUser = useAppStore((state) => state.currentUser);
   const getNotificationsByEmail = useAppStore((state) => state.getNotificationsByEmail);
   const markAsRead = useAppStore((state) => state.markAsRead);
-  const resetNotification = useAppStore((state) => state.resetNotification);
+  const clearNotificationsByEmail = useAppStore((state) => state.clearNotificationsByEmail);
   const userNotifications = getNotificationsByEmail(currentUser.email);
 
   const handleMarkAsRead = (notificationId: string) => {
@@ -16,7 +16,7 @@ const NotificationList = () => {
   };
 
   const handleResetNotifications = () => {
-    resetNotification();
+    clearNotificationsByEmail(currentUser.email);
   };
 
   return (

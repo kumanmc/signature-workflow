@@ -74,6 +74,7 @@ export interface NotificationSlice {
   notifications: Notification[];
   sendNotification: (notification: Notification) => void;
   getNotificationsByEmail: (email: string) => Notification[];
+  clearNotificationsByEmail: (email: string) => void
   markAsRead: (notificationId: string) => void;
   resetNotification: () => void;
 }

@@ -16,5 +16,8 @@ export const createNotificationSlice: StateCreator<AppState, [], [], Notificatio
     ),
   })),
   getNotificationsByEmail: (email: string) => get().notifications.filter((notification) => notification.email === email),
+  clearNotificationsByEmail: (email: string) => set((state) => ({
+    notifications: state.notifications.filter((notification) => notification.email !== email),
+  })),
   resetNotification: () => set(initialNotificationStateProperties),
 });
