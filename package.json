@@ -43,7 +43,7 @@
       "!src/reportWebVitals.ts",
       "!src/setupTests.ts",
       "!src/**/constants.ts",
-      "!src/types/*",
+      "!src/store/types.ts",
       "!src/App.tsx"
     ],
     "coverageReporters": [
